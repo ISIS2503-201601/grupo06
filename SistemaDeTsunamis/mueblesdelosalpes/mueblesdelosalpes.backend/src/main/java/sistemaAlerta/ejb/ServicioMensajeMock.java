@@ -57,7 +57,7 @@ public class ServicioMensajeMock implements IServicioMensajeMockRemote, IServici
     @Override
     public void recibirMensaje(Mensaje mensaje)
     {
-        //System.out.println("Altura: "+mensaje.getAltura()+ " - Velocidad: " + mensaje.getVelocidad() + " - Latitud: " + mensaje.getLatitud() + " - Longitud: " + mensaje.getLongitud());
+        System.out.println("Altura: "+mensaje.getAltura()+ " - Velocidad: " + mensaje.getVelocidad() + " - Latitud: " + mensaje.getLatitud() + " - Longitud: " + mensaje.getLongitud());
     }
 
     
