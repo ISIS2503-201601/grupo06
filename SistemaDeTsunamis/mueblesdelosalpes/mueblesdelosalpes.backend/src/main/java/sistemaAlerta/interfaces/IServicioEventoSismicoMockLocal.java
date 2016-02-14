@@ -13,26 +13,27 @@
 package sistemaAlerta.interfaces;
 
 
+import java.util.ArrayList;
 import sistemaAlerta.dto.Mensaje;
 import java.util.List;
 import javax.ejb.Local;
+import sistemaAlerta.dto.EventoSismico;
 
 /**
  * Contrato funcional de los servicios que se le prestan al catálogo
  * @author Juan Sebastián Urrego
  */
 @Local
-public interface IServicioMensajeMockLocal
+public interface IServicioEventoSismicoMockLocal
 {
 
     /**
      * Agrega un mueble al sistema
      * @param mueble Nuevo mueble
      */
-    public void recibirMensaje(Mensaje mensaje);
+    public void recibirEvento(EventoSismico evento);
 
-    public List<Mensaje> darMensajes();
-
+    public List<EventoSismico> darEventos();
 
 
 }

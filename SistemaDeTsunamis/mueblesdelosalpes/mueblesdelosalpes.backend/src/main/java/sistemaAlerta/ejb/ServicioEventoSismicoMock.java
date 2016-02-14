@@ -12,7 +12,7 @@
 
 package sistemaAlerta.ejb;
 
-import sistemaAlerta.dto.Mensaje;
+import sistemaAlerta.dto.EventoSismico;
 import sistemaAlerta.interfaces.IServicioMensajeMockLocal;
 import sistemaAlerta.interfaces.IServicioMensajeMockRemote;
 
@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import sistemaAlerta.interfaces.IServicioEventoSismicoMockLocal;
+import sistemaAlerta.interfaces.IServicioEventoSismicoMockRemote;
 
 /**
  * Implementacion de los servicios del carrito de compras en el sistema.
@@ -27,13 +30,15 @@ import javax.ejb.Stateless;
  */
 
 @Stateless
-public class ServicioMensajeMock implements IServicioMensajeMockRemote, IServicioMensajeMockLocal
+public class ServicioEventoSismicoMock implements IServicioEventoSismicoMockRemote, IServicioEventoSismicoMockLocal
 {
     //-----------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------
     
-    private List<Mensaje> mensajes;
+    //@Inject private EventoPersistence persistence;
+    
+    private List<EventoSismico> eventos;
     
     //-----------------------------------------------------------
     // Constructor
@@ -42,9 +47,9 @@ public class ServicioMensajeMock implements IServicioMensajeMockRemote, IServici
     /**
      * Constructor sin argumentos de la clase
      */
-    public ServicioMensajeMock()
+    public ServicioEventoSismicoMock()
     {
-        mensajes = new ArrayList();
+        eventos = new ArrayList();
     }
 
     //-----------------------------------------------------------
@@ -56,16 +61,28 @@ public class ServicioMensajeMock implements IServicioMensajeMockRemote, IServici
      * Modifica el inventario del carrito
      * @param inventario Nueva lista de muebles
      */
-    @Override
-    public void recibirMensaje(Mensaje mensaje)
+    public void recibirEvento(EventoSismico evento)
     {
-        mensajes.add(mensaje);
+        //EventoEntity entidad = new EventoEntity(evento.getId(), evento.getLatitud(), evento.getLongitud(), evento.getDistancia());
+        //persistence.create(entidad);
+        
+        eventos.add(evento);
     }
     
-    @Override
-    public List<Mensaje> darMensajes()
+    public List<EventoSismico> darEventos()
     {
-        return mensajes;
+        //List<EventoEntity> entidades = persistence.findAll();
+        //List<EventoSismico> retorno = new ArrayList();
+        //for(int i = 0; i < entidades.size(); i++)
+        //{
+            //EventoEntity temp = (EventoEntity) entidades.get(i);
+            //EventoSismico nuevo = new EventoSismico(temp.getId(), temp.getLatitud(), temp.getLongitud(), temp.getDistancia());
+            //retorno.add(nuevo);
+        //}
+        
+        //return retorno;
+        
+        return eventos;
     }
 
     

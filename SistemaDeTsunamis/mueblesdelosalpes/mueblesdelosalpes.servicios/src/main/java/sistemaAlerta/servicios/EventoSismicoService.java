@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package sistemaAlerta.servicios;
-import sistemaAlerta.dto.Mensaje;
-import sistemaAlerta.interfaces.IServicioMensajeMockLocal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,33 +13,35 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import sistemaAlerta.dto.EventoSismico;
+import sistemaAlerta.interfaces.IServicioEventoSismicoMockLocal;
 
 /**
  *
  * @author scvalencia606
  */
-@Path("/Mensajes")
+@Path("/EventosSismicos")
 @Stateless
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class MensajeService {
+public class EventoSismicoService {
     
     @EJB
-    private IServicioMensajeMockLocal mensajeEjb;
+    private IServicioEventoSismicoMockLocal eventoEjb;
     
     @POST
     @Path("enviar/") 
-    public void recibirMensaje(Mensaje mensaje) {
+    public void recibirEvento(EventoSismico evento) {
         
-        mensajeEjb.recibirMensaje(mensaje);
+        eventoEjb.recibirEvento(evento);
         
     }
     
     @GET
     @Path("ver/") 
-    public List<Mensaje> verMensajes() {
+    public List<EventoSismico> verEventos() {
         
-        return mensajeEjb.darMensajes();
+        return eventoEjb.darEventos();
         
     }
  

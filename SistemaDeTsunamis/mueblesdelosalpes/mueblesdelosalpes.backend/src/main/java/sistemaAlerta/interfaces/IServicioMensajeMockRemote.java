@@ -32,6 +32,9 @@ public interface IServicioMensajeMockRemote
      * @param mueble Nuevo mueble
      */
     public void recibirMensaje(Mensaje mensaje);
+    
+    
+    public List<Mensaje> darMensajes();
 
     
     
