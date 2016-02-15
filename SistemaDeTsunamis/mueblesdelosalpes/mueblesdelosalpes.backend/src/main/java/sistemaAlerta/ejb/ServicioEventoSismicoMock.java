@@ -21,6 +21,8 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import sistemaAlerta.dto.BoletinAlerta;
+import sistemaAlerta.dto.Mensaje;
 import sistemaAlerta.interfaces.IServicioEventoSismicoMockLocal;
 import sistemaAlerta.interfaces.IServicioEventoSismicoMockRemote;
 
@@ -83,6 +85,32 @@ public class ServicioEventoSismicoMock implements IServicioEventoSismicoMockRemo
         //return retorno;
         
         return eventos;
+    }
+
+    @Override
+    public BoletinAlerta generarBoletin(Mensaje mensaje, EventoSismico evento) {
+        
+        String zona = "";
+        double tiempo = 0;
+        String perfil = "";
+        
+        //Calculo de zona costera mas cercana
+        if(mensaje.getLatitud()>=0 && mensaje.getLongitud() < 80)
+            zona = "Atlantico";
+        else
+            zona = "Pacifico";
+        
+        //Tiempo de llegada de la ola
+        tiempo = evento.getDistancia()/mensaje.getVelocidad();
+        
+        /**
+         * TODO: encontrar el perfil de alerta segun escenarios premodelados
+         */
+        perfil = "informativo";
+        
+        return new BoletinAlerta(1, perfil, zona, tiempo, mensaje.getAltura());
+        
+        
     }
 
     

@@ -32,6 +32,11 @@ public interface IServicioMensajeMockLocal
     public void recibirMensaje(Mensaje mensaje);
 
     public List<Mensaje> darMensajes();
+    
+    /**
+     * Busca el ultimo sensor recibido mas cercano a un evento sismico
+     */
+    public Mensaje buscarUltimoRegistroSensorCercano(double latitud, double longitud);
 
 
 

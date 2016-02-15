@@ -13,8 +13,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import sistemaAlerta.dto.BoletinAlerta;
 import sistemaAlerta.dto.EventoSismico;
+import sistemaAlerta.dto.Mensaje;
 import sistemaAlerta.interfaces.IServicioEventoSismicoMockLocal;
+import sistemaAlerta.interfaces.IServicioMensajeMockLocal;
 
 /**
  *
@@ -29,11 +32,16 @@ public class EventoSismicoService {
     @EJB
     private IServicioEventoSismicoMockLocal eventoEjb;
     
+    @EJB
+    private IServicioMensajeMockLocal mensajesEjb;
+    
     @POST
     @Path("enviar/") 
-    public void recibirEvento(EventoSismico evento) {
+    public BoletinAlerta recibirEvento(EventoSismico evento) {
         
         eventoEjb.recibirEvento(evento);
+        Mensaje m = mensajesEjb.buscarUltimoRegistroSensorCercano(evento.getLatitud(), evento.getLongitud());
+        return eventoEjb.generarBoletin(m, evento);
         
     }
     

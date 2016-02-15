@@ -68,6 +68,50 @@ public class ServicioMensajeMock implements IServicioMensajeMockRemote, IServici
         return mensajes;
     }
 
+    @Override
+    public Mensaje buscarUltimoRegistroSensorCercano(double latitud, double longitud) 
+    {
+        Mensaje masCercano = mensajes.get(0);
+        double distanciaMin = distancia2Puntos(latitud, masCercano.getLatitud() , longitud, masCercano.getLongitud());
+        double d = 0;
+        
+        for(Mensaje m : mensajes)
+        {
+            d = distancia2Puntos(latitud, m.getLatitud() , longitud, m.getLongitud());
+            if(d < distanciaMin)
+            {
+                distanciaMin = d;
+                masCercano = m;
+            }
+            
+        }
+        
+        return masCercano;
+        
+    }
+    
+    /**
+     * Calcula la distancia esférica entre 2 puntos de la tierra con la formula Haversine
+     * @param latitud1
+     * @param latitud2
+     * @param longitud1
+     * @param longitud2 
+     */
+    public double distancia2Puntos(double latitud1, double latitud2, double longitud1, double longitud2)
+    {
+        //Radio de la tierra (m)
+        double R = 6371000;
+        double phi1 = Math.toRadians(latitud1);
+        double phi2 = Math.toRadians(latitud2);
+        double diffPhi = Math.toRadians(Math.abs(latitud2-latitud1));
+        double diffLong = Math.toRadians(Math.abs(longitud2-longitud1));
+        
+        double a = Math.pow(Math.sin(diffPhi/2), 2) + Math.cos(phi1)*Math.cos(phi2)*Math.pow(Math.sin(diffLong/2), 2);
+        double c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        
+        return R*c;
+    }
+
     
     
 }
