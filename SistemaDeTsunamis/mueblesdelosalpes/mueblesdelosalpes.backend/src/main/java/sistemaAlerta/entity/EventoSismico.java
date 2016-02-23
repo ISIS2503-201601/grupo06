@@ -1,14 +1,18 @@
 /*
  * Representa el DTO de un evento sísmico
  */
-package sistemaAlerta.dto;
+package sistemaAlerta.entity;
 
 /**
  * Clase para representar el DTO de un evento sismico
  * @author sebastian
  */
-public class EventoSismicoDTO {
+public class EventoSismico {
     
+    /**
+     * Id
+     */
+    private Long id;
     
     /**
      * Longitud del evento
@@ -31,7 +35,7 @@ public class EventoSismicoDTO {
     private String zonaGeografica;
 
     //Constructor
-    public EventoSismicoDTO(){}
+    public EventoSismico(){}
 
     /**
      * @return the longitud
@@ -87,6 +91,20 @@ public class EventoSismicoDTO {
      */
     public void setZonaGeografica(String zonaGeografica) {
         this.zonaGeografica = zonaGeografica;
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
     
     

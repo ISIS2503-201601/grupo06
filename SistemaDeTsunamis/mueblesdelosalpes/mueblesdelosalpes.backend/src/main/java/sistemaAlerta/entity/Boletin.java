@@ -1,14 +1,18 @@
 /*
  * DTO de un boletin de alerta
  */
-package sistemaAlerta.dto;
+package sistemaAlerta.entity;
 
 /**
  * Boletin de alerta
  * @author sebastian
  */
-public class BoletinDTO {
+public class Boletin {
     
+    /**
+     * Id
+     */
+    private Long id;
     
     /**
      * perfil de alerta del boletin
@@ -31,7 +35,7 @@ public class BoletinDTO {
     private double altura;
     
     //Constructor
-    public BoletinDTO(){}
+    public Boletin(){}
 
     /**
      * @return the perfil
@@ -87,6 +91,20 @@ public class BoletinDTO {
      */
     public void setAltura(double altura) {
         this.altura = altura;
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
     
 }
