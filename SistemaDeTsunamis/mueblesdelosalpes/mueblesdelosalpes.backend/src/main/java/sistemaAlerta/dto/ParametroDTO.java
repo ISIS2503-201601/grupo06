@@ -34,13 +34,7 @@ public class ParametroDTO {
      
      
      //Constructor
-     public ParametroDTO(Long idSensor, double altura, double velocidad, String fecha)
-     {
-         this.idSensor = idSensor;
-         this.altura = altura;
-         this.velocidad = velocidad;
-         this.fecha = fecha;
-     }
+     public ParametroDTO(){}
 
     /**
      * @return the idSensor
