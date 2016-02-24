@@ -7,6 +7,7 @@ package sistemaAlerta.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.entity.EventoSismico;
 import sistemaAlerta.interfaces.IServicioEventosSismicos;
@@ -15,6 +16,7 @@ import sistemaAlerta.interfaces.IServicioEventosSismicos;
  *
  * @author sebastian
  */
+@Stateless
 public class ServicioEventosSismicos implements IServicioEventosSismicos {
     
     //Atributos del EJB

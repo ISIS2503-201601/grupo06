@@ -5,6 +5,7 @@ package sistemaAlerta.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
 import sistemaAlerta.dto.BoletinDTO;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.entity.EscenarioPremodelado;
@@ -16,6 +17,7 @@ import sistemaAlerta.interfaces.IServicioSATT;
  * Servicio de SATT
  * @author sebastian
  */
+@Stateless
 public class ServicioSATT implements IServicioSATT{
 
     //Atributos del servicio

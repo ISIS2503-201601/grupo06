@@ -8,6 +8,7 @@ package sistemaAlerta.ejb;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.Stateless;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.dto.ParametroDTO;
 import sistemaAlerta.entity.Parametro;
@@ -18,6 +19,7 @@ import sistemaAlerta.interfaces.IServicioSensores;
  * Servicio de sensores
  * @author sebastian
  */
+@Stateless
 public class ServicioSensores implements IServicioSensores {
     
     //Atributos del EJB
