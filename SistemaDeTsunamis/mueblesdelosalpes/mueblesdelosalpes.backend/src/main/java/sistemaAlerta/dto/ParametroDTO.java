@@ -27,10 +27,6 @@ public class ParametroDTO {
      */
     private double velocidad;
     
-    /**
-     * Estampa de fecha 
-     */
-     private String fecha;
      
      
      //Constructor
@@ -62,6 +58,7 @@ public class ParametroDTO {
      */
     public void setAltura(double altura) {
         this.altura = altura;
+        
     }
 
     /**
@@ -78,19 +75,7 @@ public class ParametroDTO {
         this.velocidad = velocidad;
     }
 
-    /**
-     * @return the fecha
-     */
-    public String getFecha() {
-        return fecha;
-    }
-
-    /**
-     * @param fecha the fecha to set
-     */
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
+   
      
     
 }

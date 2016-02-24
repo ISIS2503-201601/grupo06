@@ -4,7 +4,6 @@
  */
 package sistemaAlerta.entity;
 
-import java.util.Date;
 
 /**
  * Clase de parametro
@@ -27,19 +26,15 @@ public class Parametro {
      */
     private double velocidad;
     
-    /**
-     * Estampa de fecha 
-     */
-     private Date fecha;
+ 
      
      
      //Constructor
-     public Parametro(Long idSensor, double altura, double velocidad, Date fecha)
+     public Parametro(Long idSensor, double altura, double velocidad)
      {
          this.idSensor = idSensor;
          this.altura = altura;
          this.velocidad = velocidad;
-         this.fecha = fecha;
      }
 
     /**
@@ -84,19 +79,8 @@ public class Parametro {
         this.velocidad = velocidad;
     }
 
-    /**
-     * @return the fecha
-     */
-    public Date getFecha() {
-        return fecha;
-    }
-
-    /**
-     * @param fecha the fecha to set
-     */
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
+  
+    
      
     
 }

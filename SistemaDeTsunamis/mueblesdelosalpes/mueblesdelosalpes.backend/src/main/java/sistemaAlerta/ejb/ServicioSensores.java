@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Persistence;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.dto.ParametroDTO;
 import sistemaAlerta.entity.Parametro;
 import sistemaAlerta.entity.Sensor;
 import sistemaAlerta.interfaces.IServicioSensores;
+import sistemaAlerta.persistenciaMock.PersistenciaSensoresMock;
 
 /**
  * Servicio de sensores
@@ -27,28 +29,15 @@ public class ServicioSensores implements IServicioSensores {
     /**
      * Sensores
      */
-    private List<Sensor> sensores;
+    private PersistenciaSensoresMock persistenciaSensores;
     
     
     //Constructor
     public ServicioSensores()
     {
         //Genera 4000 sensores nuevos
-        sensores = new ArrayList<Sensor>();
-        
-        for(int i = 0; i < 4000; i++)
-        {
-            int zona = (int)(Math.random()*10);
-            double longitud = Math.random()*100;
-            double latitud = Math.random()*100;
-            String zonaGeografica;
-            if(zona <= 5)
-                zonaGeografica = Sensor.ZONA_ATLANTICA;
-            else
-                zonaGeografica = Sensor.ZONA_PACIFICA;
-            
-            Sensor nuevo = new Sensor(new Long(i), zonaGeografica, longitud, latitud);
-        }
+        persistenciaSensores = new PersistenciaSensoresMock();
+       
     }
     
 
@@ -59,9 +48,7 @@ public class ServicioSensores implements IServicioSensores {
      */
     @Override
     public boolean agregarMedidaSensor(ParametroDTO medida) {
-       Parametro medidaNueva = new Parametro(medida.getIdSensor(), medida.getAltura(), medida.getVelocidad(), new Date(medida.getFecha()));
-       sensores.get(medida.getIdSensor().intValue()).agregarParametro(medidaNueva);
-       return true;
+       return persistenciaSensores.agregarMedidaSensor(medida);
     }
 
     /**
@@ -70,24 +57,7 @@ public class ServicioSensores implements IServicioSensores {
      */
     @Override
     public List<ParametroDTO> darMedidas() {
-        List<ParametroDTO> respuesta = new ArrayList<ParametroDTO>();
-        
-        for(int i = 0; i < sensores.size(); i++)
-        {
-            Sensor sensor = sensores.get(i);
-            for(Parametro medida: sensor.getParametros())
-            {
-                ParametroDTO param = new ParametroDTO();
-                param.setAltura(medida.getAltura());
-                param.setFecha(medida.getFecha().toString());
-                param.setIdSensor(medida.getIdSensor());
-                param.setVelocidad(medida.getVelocidad());
-                respuesta.add(param);
-            }
-
-        }
-        
-        return respuesta;
+        return persistenciaSensores.darMedidas();
     }
 
     /**
@@ -97,22 +67,8 @@ public class ServicioSensores implements IServicioSensores {
      */
     @Override
     public Parametro darMedicionSensorMasCercano(EventoSismicoDTO evento) {
-       
-       
-        Sensor masCercano = sensores.get(0);
-        double distanciaMinima = distancia2Puntos(evento.getLatitud(), masCercano.getLatitud(), evento.getLongitud(), masCercano.getLongitud());
-        double distanciaIteracion;
-        for(Sensor sensor: sensores)
-        {
-            distanciaIteracion = distancia2Puntos(evento.getLatitud(), sensor.getLatitud(), evento.getLongitud(), sensor.getLongitud());
-            if(distanciaIteracion < distanciaMinima)
-            {
-                distanciaMinima = distanciaIteracion;
-                masCercano = sensor;
-            }
-        }
         
-        return masCercano.darUlitmaMedicion();
+        return persistenciaSensores.darMedicionSensorMasCercano(evento);
    
     }
     

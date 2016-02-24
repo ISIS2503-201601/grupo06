@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.entity.EventoSismico;
 import sistemaAlerta.interfaces.IServicioEventosSismicos;
+import sistemaAlerta.persistenciaMock.PersistenciaEventosMock;
 
 /**
  *
@@ -22,20 +23,14 @@ public class ServicioEventosSismicos implements IServicioEventosSismicos {
     //Atributos del EJB
     
     /**
-     * Lista de eventos
+     * Eventos
      */
-    private List<EventoSismico> eventos;
-    
-    /**
-     * Id temporal
-     */
-    private Long id;
+    private PersistenciaEventosMock persistenciaEventos;
     
     //Constructor
     public ServicioEventosSismicos()
     {
-        id = new Long(0);
-        eventos = new ArrayList<EventoSismico>();
+        persistenciaEventos = new PersistenciaEventosMock();
     }
 
     /**
@@ -45,15 +40,7 @@ public class ServicioEventosSismicos implements IServicioEventosSismicos {
      */
     @Override
     public boolean agregarEventoSismico(EventoSismicoDTO evento) {
-        EventoSismico nuevo = new EventoSismico();
-        nuevo.setDistanciaCosta(evento.getDistanciaCosta());
-        nuevo.setId(id);
-        nuevo.setLatitud(evento.getLatitud());
-        nuevo.setLongitud(evento.getLongitud());
-        nuevo.setZonaGeografica(evento.getZonaGeografica());
-        eventos.add(nuevo);
-        id++;
-        return true;
+        return persistenciaEventos.agregarEventoSismico(evento);
     }
 
     /**
@@ -62,17 +49,7 @@ public class ServicioEventosSismicos implements IServicioEventosSismicos {
      */
     @Override
     public List<EventoSismicoDTO> darEventosSismicos() {
-        List<EventoSismicoDTO> respuesta = new ArrayList<EventoSismicoDTO>();
-        for(EventoSismico evento : eventos)
-        {
-            EventoSismicoDTO e = new EventoSismicoDTO();
-            e.setDistanciaCosta(evento.getDistanciaCosta());
-            e.setLatitud(evento.getLatitud());
-            e.setLongitud(evento.getLongitud());
-            e.setZonaGeografica(evento.getZonaGeografica());
-            respuesta.add(e);
-        }
-        return respuesta;
+        return persistenciaEventos.darEventosSismicos();
     }
     
 }
