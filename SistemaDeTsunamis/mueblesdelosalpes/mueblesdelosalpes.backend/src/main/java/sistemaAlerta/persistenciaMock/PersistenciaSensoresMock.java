@@ -84,8 +84,8 @@ public class PersistenciaSensoresMock {
             }
         }
         
-        return masCercano.darUlitmaMedicion();
-   
+        return masCercano.darUlitmaMedicion(); 
+        //return darMedidaSensor3();
     }
     
     /**
@@ -108,5 +108,14 @@ public class PersistenciaSensoresMock {
         double c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         
         return R*c;
+    }
+    
+    public Parametro darMedidaSensor3()
+    {
+                
+        //Para efecto de pruebas
+        Sensor s = sensores.get(3);
+        Parametro medida = s.darUlitmaMedicion();
+        return medida;  
     }
 }

@@ -56,7 +56,7 @@ public class SATTService {
      * Devuelve todas las medidas hechas
      */
     @GET
-    @Path("darMediciones/")
+    @Path("mediciones/")
     public List<ParametroDTO> darMediciones()
     {
         return sensoresEjb.darMedidas();
@@ -78,7 +78,7 @@ public class SATTService {
      * Retorna todos los eventos sismicos
      */
     @GET
-    @Path("darEventosSismicos/")
+    @Path("eventos/")
     public List<EventoSismicoDTO> darEventosSismicos()
     {
         return eventosEjb.darEventosSismicos();
