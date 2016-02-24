@@ -46,7 +46,7 @@ public class SATTService {
      * Creacion de una medida de sensor
      */
     @POST
-    @Path("registrarSensor/")
+    @Path("medicion/")
     public void registrarSensor(ParametroDTO medicion)
     {
         sensoresEjb.agregarMedidaSensor(medicion);
@@ -66,7 +66,7 @@ public class SATTService {
      * Agrega un evento sismico y genera el boletin
      */
     @POST
-    @Path("registrarEventoSismico/")
+    @Path("evento/")
     public BoletinDTO registrarEventoSismico(EventoSismicoDTO evento)
     {
         eventosEjb.agregarEventoSismico(evento);
