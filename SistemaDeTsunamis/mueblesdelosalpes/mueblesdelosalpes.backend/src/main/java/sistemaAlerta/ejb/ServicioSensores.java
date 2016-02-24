@@ -94,9 +94,9 @@ public class ServicioSensores implements IServicioSensores {
      * @return 
      */
     @Override
-    public ParametroDTO darMedicionSensorMasCercano(EventoSismicoDTO evento) {
+    public Parametro darMedicionSensorMasCercano(EventoSismicoDTO evento) {
        
-        ParametroDTO respuesta = new ParametroDTO();
+       
         Sensor masCercano = sensores.get(0);
         double distanciaMinima = distancia2Puntos(evento.getLatitud(), masCercano.getLatitud(), evento.getLongitud(), masCercano.getLongitud());
         double distanciaIteracion;
@@ -110,14 +110,8 @@ public class ServicioSensores implements IServicioSensores {
             }
         }
         
-        Parametro ultimaMedicion = masCercano.darUlitmaMedicion();
-        
-        respuesta.setAltura(ultimaMedicion.getAltura());
-        respuesta.setFecha(ultimaMedicion.getFecha().toString());
-        respuesta.setIdSensor(ultimaMedicion.getIdSensor());
-        respuesta.setVelocidad(ultimaMedicion.getVelocidad());
-        
-        return respuesta;
+        return masCercano.darUlitmaMedicion();
+   
     }
     
     /**

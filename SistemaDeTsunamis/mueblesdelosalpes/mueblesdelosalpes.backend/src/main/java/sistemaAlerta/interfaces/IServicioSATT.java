@@ -5,7 +5,7 @@ package sistemaAlerta.interfaces;
 
 import sistemaAlerta.dto.BoletinDTO;
 import sistemaAlerta.dto.EventoSismicoDTO;
-import sistemaAlerta.dto.ParametroDTO;
+import sistemaAlerta.entity.Parametro;
 
 /**
  * Conjunto de servicios para generar boletines y realizar seguimiento
@@ -16,6 +16,6 @@ public interface IServicioSATT {
     /**
      * Generar boletin a partir de un evento sismico y una medicion del sensor mas cercano
      */
-    public BoletinDTO generarBoletin(EventoSismicoDTO evento, ParametroDTO medicion);
+    public BoletinDTO generarBoletin(EventoSismicoDTO evento, Parametro medicion);
     
 }
