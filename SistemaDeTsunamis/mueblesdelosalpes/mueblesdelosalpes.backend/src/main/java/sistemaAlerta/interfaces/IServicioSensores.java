@@ -7,6 +7,7 @@ import java.util.List;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.dto.ParametroDTO;
 import sistemaAlerta.entity.Parametro;
+import sistemaAlerta.entity.Sensor;
 
 /**
  * Servicios de sensores
@@ -27,6 +28,6 @@ public interface IServicioSensores {
     /**
      * Retorna la medicion del sensor mas cercano dado un evento sismico
      */
-    public Parametro darMedicionSensorMasCercano(EventoSismicoDTO evento);
+    public Sensor darSensorMasCercano(EventoSismicoDTO evento);
     
 }

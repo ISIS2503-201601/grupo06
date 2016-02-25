@@ -44,9 +44,9 @@ public class ServicioSATT implements IServicioSATT{
      * @return 
      */
     @Override
-    public BoletinDTO generarBoletin(EventoSismicoDTO evento, Parametro medicion) 
+    public BoletinDTO generarBoletin(EventoSismicoDTO evento, Sensor sensorMasCercano) 
     {
-        return persistenciEscenarios.generarBoletin(evento, medicion);
+        return persistenciEscenarios.generarBoletin(evento, sensorMasCercano);
     }
     
     

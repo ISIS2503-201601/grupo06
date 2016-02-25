@@ -66,9 +66,9 @@ public class ServicioSensores implements IServicioSensores {
      * @return 
      */
     @Override
-    public Parametro darMedicionSensorMasCercano(EventoSismicoDTO evento) {
+    public Sensor darSensorMasCercano(EventoSismicoDTO evento) {
         
-        return persistenciaSensores.darMedicionSensorMasCercano(evento);
+        return persistenciaSensores.darSensorMasCercano(evento);
    
     }
     

@@ -21,6 +21,7 @@ public class PersistenciaSensoresMock {
     private List<Sensor> sensores;
     
     
+    
     public PersistenciaSensoresMock()
     {
         sensores = new ArrayList<Sensor>();
@@ -69,7 +70,7 @@ public class PersistenciaSensoresMock {
         return respuesta;
     }
     
-    public Parametro darMedicionSensorMasCercano(EventoSismicoDTO evento) {
+    public Sensor darSensorMasCercano(EventoSismicoDTO evento) {
        
         Sensor masCercano = sensores.get(0);
         double distanciaMinima = distancia2Puntos(evento.getLatitud(), masCercano.getLatitud(), evento.getLongitud(), masCercano.getLongitud());
@@ -84,7 +85,7 @@ public class PersistenciaSensoresMock {
             }
         }
         
-        return masCercano.darUlitmaMedicion(); 
+        return masCercano;
         //return darMedidaSensor3();
     }
     
@@ -118,4 +119,6 @@ public class PersistenciaSensoresMock {
         Parametro medida = s.darUlitmaMedicion();
         return medida;  
     }
+    
+
 }

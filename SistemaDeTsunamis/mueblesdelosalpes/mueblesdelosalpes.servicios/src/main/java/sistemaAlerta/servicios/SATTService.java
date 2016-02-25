@@ -18,6 +18,7 @@ import sistemaAlerta.dto.BoletinDTO;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.dto.ParametroDTO;
 import sistemaAlerta.entity.Parametro;
+import sistemaAlerta.entity.Sensor;
 import sistemaAlerta.interfaces.IServicioEventosSismicos;
 import sistemaAlerta.interfaces.IServicioSATT;
 import sistemaAlerta.interfaces.IServicioSensores;
@@ -70,8 +71,8 @@ public class SATTService {
     public BoletinDTO registrarEventoSismico(EventoSismicoDTO evento)
     {
         eventosEjb.agregarEventoSismico(evento);
-        Parametro medicion = sensoresEjb.darMedicionSensorMasCercano(evento);
-        return sattEjb.generarBoletin(evento, medicion);
+        Sensor sensorMasCercano = sensoresEjb.darSensorMasCercano(evento);
+        return sattEjb.generarBoletin(evento, sensorMasCercano);
     }
     
     /**

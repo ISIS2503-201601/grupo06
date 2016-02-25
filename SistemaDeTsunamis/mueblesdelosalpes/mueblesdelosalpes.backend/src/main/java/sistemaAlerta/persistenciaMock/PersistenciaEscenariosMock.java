@@ -12,6 +12,7 @@ import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.entity.EscenarioPremodelado;
 import sistemaAlerta.entity.Parametro;
 import sistemaAlerta.entity.Sensor;
+import sistemaAlerta.thread.SATTMonitor;
 
 /**
  *
@@ -23,6 +24,8 @@ public class PersistenciaEscenariosMock {
      * Escenarios premodelados
      */
     private List<EscenarioPremodelado> escenarios;
+    
+    
     
     public PersistenciaEscenariosMock()
     {
@@ -88,9 +91,10 @@ public class PersistenciaEscenariosMock {
             return new EscenarioPremodelado(alturaMax, alturaMin, tiempoMax, tiempoMin, perfil, zonaGeografica);
     }
     
-    public BoletinDTO generarBoletin(EventoSismicoDTO evento, Parametro medicion) 
+    public BoletinDTO generarBoletin(EventoSismicoDTO evento, Sensor sensorMasCercano) 
     {
         //Se calcula el tiempo de llegada de la ola
+        Parametro medicion  = sensorMasCercano.darUlitmaMedicion();
         double tiempoLlegada = evento.getDistanciaCosta()/medicion.getVelocidad();
         String perfil = darPerfilPreModelado(evento, medicion, tiempoLlegada);
         
@@ -101,6 +105,11 @@ public class PersistenciaEscenariosMock {
             respuesta.setPerfil(perfil);
             respuesta.setTiempoLlegada(tiempoLlegada);
             respuesta.setZonaGeografica(evento.getZonaGeografica());
+            
+            //Seguimiento 
+//            SATTMonitor monitor = new SATTMonitor(evento, sensorMasCercano, this, tiempoLlegada);
+//            monitor.start();
+            
             return respuesta;
         }
         else
@@ -135,5 +144,7 @@ public class PersistenciaEscenariosMock {
         
         return respuesta;
     }
+    
+    
     
 }
