@@ -68,7 +68,7 @@ public class SATTMonitor extends Thread{
             try
             {
                 //Espera de 5 minutos
-                this.wait(300000);
+                this.wait(3000);
                 Parametro nuevaMedicion = sensorMasCercano.darUlitmaMedicion();
                 double alturaActual = nuevaMedicion.getAltura();
                 double tiempoLlegadaNuevo = eventoOriginal.getDistanciaCosta()/nuevaMedicion.getVelocidad();

@@ -98,6 +98,9 @@ public class PersistenciaEscenariosMock {
         double tiempoLlegada = evento.getDistanciaCosta()/medicion.getVelocidad();
         String perfil = darPerfilPreModelado(evento, medicion, tiempoLlegada);
         
+        //Test
+        //perfil = EscenarioPremodelado.ALERTA;
+        
         if(perfil != null)
         {
             BoletinDTO respuesta = new BoletinDTO();
