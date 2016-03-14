@@ -4,16 +4,26 @@
  */
 package sistemaAlerta.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 
 /**
  * Clase de parametro
  * @author sebastian
  */
+@Entity
 public class Parametro {
     
     /**
      * Id del sensor que genero esta informacion
      */
+    
+    @Id
+    @GeneratedValue(generator = "Parametro")
+    private Long id;
+    
     private Long idSensor;
     
     /**
@@ -30,11 +40,9 @@ public class Parametro {
      
      
      //Constructor
-     public Parametro(Long idSensor, double altura, double velocidad)
+     public Parametro()
      {
-         this.idSensor = idSensor;
-         this.altura = altura;
-         this.velocidad = velocidad;
+         
      }
 
     /**

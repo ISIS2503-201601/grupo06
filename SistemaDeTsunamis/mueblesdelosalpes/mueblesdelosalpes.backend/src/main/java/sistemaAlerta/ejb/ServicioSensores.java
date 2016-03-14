@@ -9,12 +9,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.Persistence;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.dto.ParametroDTO;
 import sistemaAlerta.entity.Parametro;
 import sistemaAlerta.entity.Sensor;
 import sistemaAlerta.interfaces.IServicioSensores;
+import sistemaAlerta.persistenciaMock.PersistenciaParametrosMock;
 import sistemaAlerta.persistenciaMock.PersistenciaSensoresMock;
 
 /**
@@ -29,47 +31,87 @@ public class ServicioSensores implements IServicioSensores {
     /**
      * Sensores
      */
-    private PersistenciaSensoresMock persistenciaSensores;
+    @Inject private PersistenciaSensoresMock persistenciaSensores;
+    
+    @Inject private PersistenciaParametrosMock persistenciaParametros;
     
     
     //Constructor
     public ServicioSensores()
     {
-        //Genera 4000 sensores nuevos
-        persistenciaSensores = new PersistenciaSensoresMock();
-       
+    
+        for(int i = 0; i < 4000; i++)
+        {
+            int zona = (int)(Math.random()*10);
+            double longitud = Math.random()*100;
+            double latitud = Math.random()*100;
+            String zonaGeografica;
+            if(zona <= 5)
+                zonaGeografica = Sensor.ZONA_ATLANTICA;
+            else
+                zonaGeografica = Sensor.ZONA_PACIFICA;
+            
+            Sensor nuevo = new Sensor();
+            nuevo.setLatitud(latitud);
+            nuevo.setLongitud(longitud);
+            nuevo.setZonaGeografica(zonaGeografica);
+            persistenciaSensores.create(nuevo);
+        }
     }
     
-
-    /**
-     * Agrega una nueva medida al sensor que produjo la medida
-     * @param medida
-     * @return 
-     */
-    @Override
     public boolean agregarMedidaSensor(ParametroDTO medida) {
-       return persistenciaSensores.agregarMedidaSensor(medida);
+       Parametro medidaNueva = new Parametro();
+       medidaNueva.setAltura(medida.getAltura());
+       medidaNueva.setIdSensor(medida.getIdSensor());
+       medidaNueva.setVelocidad(medida.getVelocidad());
+       persistenciaParametros.create(medidaNueva);
+       return true;
     }
-
-    /**
-     * Retorna todas las medidas
-     * @return 
-     */
-    @Override
+    
     public List<ParametroDTO> darMedidas() {
-        return persistenciaSensores.darMedidas();
-    }
+             
+        List<ParametroDTO> respuesta = new ArrayList<ParametroDTO>();
+        List<Parametro> parametros = persistenciaParametros.findAll();
+            for(int i = 0; i < parametros.size(); i++)
+            {
 
-    /**
-     * Retorna la ultima medicion del sensor mas cercano a un evento sismico
-     * @param evento
-     * @return 
-     */
-    @Override
-    public Sensor darSensorMasCercano(EventoSismicoDTO evento) {
+                Parametro medida = (Parametro) parametros.get(i);
+                ParametroDTO param = new ParametroDTO();
+                param.setAltura(medida.getAltura());
+                param.setIdSensor(medida.getIdSensor());
+                param.setVelocidad(medida.getVelocidad());
+                respuesta.add(param);
+            }
+
         
-        return persistenciaSensores.darSensorMasCercano(evento);
-   
+        
+        return respuesta;
+    }
+    
+    public Sensor darSensorMasCercano(EventoSismicoDTO evento) {
+       
+        List<Sensor> sensores = persistenciaSensores.findAll();
+        Sensor masCercano = null;
+        double distanciaMinima = 0;
+        double distanciaIteracion = 0;
+        for(int i = 0; i < sensores.size(); i++)
+        {
+            Sensor sensor = (Sensor) sensores.get(i);
+            distanciaIteracion = distancia2Puntos(evento.getLatitud(), sensor.getLatitud(), evento.getLongitud(), sensor.getLongitud());
+            if(i == 0)
+            {
+                distanciaMinima = distanciaIteracion;
+            }
+            else if(distanciaIteracion < distanciaMinima)
+            {
+                distanciaMinima = distanciaIteracion;
+                masCercano = sensor;
+            }
+        }
+        
+        return masCercano;
+        //Test
+        //return sensores.get(3);
     }
     
     /**

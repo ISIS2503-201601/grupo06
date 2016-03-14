@@ -5,20 +5,18 @@
  */
 package sistemaAlerta.persistenciaMock;
 
-import sistemaAlerta.entity.Sensor;
+import sistemaAlerta.entity.Parametro;
 
 /**
  *
  * @author sebastian
  */
-public class PersistenciaSensoresMock extends CrudPersistence<Sensor>{
+public class PersistenciaParametrosMock extends CrudPersistence<Parametro> {
     
-    public PersistenciaSensoresMock()
+    public PersistenciaParametrosMock()
     {
-        this.entityClass = Sensor.class;
+        this.entityClass = Parametro.class;
     }
     
     
-    
-
 }

@@ -5,12 +5,16 @@ package sistemaAlerta.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 
 /**
  * Sensor en la costa
  * @author sebastian
  */
+@Entity
 public class Sensor {
     
     //Zona atlantica
@@ -22,6 +26,8 @@ public class Sensor {
     /**
      * id autogenerado del sensor
      */
+    @Id
+    @GeneratedValue(generator = "Sensor")
     private Long id;
     
     /**
@@ -39,19 +45,11 @@ public class Sensor {
      */
     private double latitud;
     
-    /**
-     * Parametros medidos por el sensor
-     */
-    private List<Parametro> parametros;
     
     //Constructor
-    public Sensor (Long id, String zonaGeografica, double longitud, double latitud)
+    public Sensor ()
     {
-        this.id = id;
-        this.zonaGeografica = zonaGeografica;
-        this.longitud = longitud;
-        this.latitud = latitud;
-        parametros = new ArrayList<Parametro>();
+        
     }
 
     /**
@@ -111,33 +109,11 @@ public class Sensor {
     }
 
     /**
-     * @return the parametros
-     */
-    public List<Parametro> getParametros() {
-        return parametros;
-    }
-
-    /**
-     * @param parametros the parametros to set
-     */
-    public void setParametros(List<Parametro> parametros) {
-        this.parametros = parametros;
-    }
-    
-    /**
-     * Agrega una medicion al sensor
-     */
-    public void agregarParametro(Parametro nuevo)
-    {
-        parametros.add(nuevo);
-    }
-    
-    /**
      * Obtiene la ultima medicion del sensor
      */
     public Parametro darUlitmaMedicion()
     {
-        return parametros.get(parametros.size()-1);
+        return null;
     }
     
     
