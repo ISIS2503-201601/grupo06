@@ -14,48 +14,12 @@ import sistemaAlerta.entity.EventoSismico;
  *
  * @author sebastian
  */
-public class PersistenciaEventosMock {
-    
-    /**
-     * Lista de eventos
-     */
-    private List<EventoSismico> eventos;
-    
-    /**
-     * Id temporal
-     */
-    private Long id;
+public class PersistenciaEventosMock extends CrudPersistence<EventoSismico> {
     
     public PersistenciaEventosMock()
     {
-        id = new Long(0);
-        eventos = new ArrayList<EventoSismico>();
+        this.entityClass = EventoSismico.class;
     }
     
-    public boolean agregarEventoSismico(EventoSismicoDTO evento) {
-        EventoSismico nuevo = new EventoSismico();
-        nuevo.setDistanciaCosta(evento.getDistanciaCosta());
-        nuevo.setId(id);
-        nuevo.setLatitud(evento.getLatitud());
-        nuevo.setLongitud(evento.getLongitud());
-        nuevo.setZonaGeografica(evento.getZonaGeografica());
-        eventos.add(nuevo);
-        id++;
-        return true;
-    }
-    
-    public List<EventoSismicoDTO> darEventosSismicos() {
-        List<EventoSismicoDTO> respuesta = new ArrayList<EventoSismicoDTO>();
-        for(EventoSismico evento : eventos)
-        {
-            EventoSismicoDTO e = new EventoSismicoDTO();
-            e.setDistanciaCosta(evento.getDistanciaCosta());
-            e.setLatitud(evento.getLatitud());
-            e.setLongitud(evento.getLongitud());
-            e.setZonaGeografica(evento.getZonaGeografica());
-            respuesta.add(e);
-        }
-        return respuesta;
-    }
     
 }

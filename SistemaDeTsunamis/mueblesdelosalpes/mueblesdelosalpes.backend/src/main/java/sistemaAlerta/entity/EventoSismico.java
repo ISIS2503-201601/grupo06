@@ -3,15 +3,22 @@
  */
 package sistemaAlerta.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Clase para representar el DTO de un evento sismico
  * @author sebastian
  */
+@Entity
 public class EventoSismico {
     
     /**
      * Id
      */
+    @Id
+    @GeneratedValue(generator = "Evento")
     private Long id;
     
     /**

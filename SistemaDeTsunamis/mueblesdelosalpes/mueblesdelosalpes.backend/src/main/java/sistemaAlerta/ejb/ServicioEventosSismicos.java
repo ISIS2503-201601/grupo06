@@ -8,6 +8,7 @@ package sistemaAlerta.ejb;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.entity.EventoSismico;
 import sistemaAlerta.interfaces.IServicioEventosSismicos;
@@ -20,36 +21,33 @@ import sistemaAlerta.persistenciaMock.PersistenciaEventosMock;
 @Stateless
 public class ServicioEventosSismicos implements IServicioEventosSismicos {
     
-    //Atributos del EJB
+    @Inject private PersistenciaEventosMock persistenciaEventos;
     
-    /**
-     * Eventos
-     */
-    private PersistenciaEventosMock persistenciaEventos;
-    
-    //Constructor
-    public ServicioEventosSismicos()
-    {
-        persistenciaEventos = new PersistenciaEventosMock();
-    }
-
-    /**
-     * agrega un nuevo evento sismico
-     * @param evento
-     * @return 
-     */
-    @Override
     public boolean agregarEventoSismico(EventoSismicoDTO evento) {
-        return persistenciaEventos.agregarEventoSismico(evento);
+        EventoSismico nuevo = new EventoSismico();
+        nuevo.setDistanciaCosta(evento.getDistanciaCosta());
+        nuevo.setLatitud(evento.getLatitud());
+        nuevo.setLongitud(evento.getLongitud());
+        nuevo.setZonaGeografica(evento.getZonaGeografica());
+        persistenciaEventos.create(nuevo);
+        return true;
     }
-
-    /**
-     * Devuelve los eventos
-     * @return 
-     */
-    @Override
+    
     public List<EventoSismicoDTO> darEventosSismicos() {
-        return persistenciaEventos.darEventosSismicos();
+        List<EventoSismicoDTO> respuesta = new ArrayList<EventoSismicoDTO>();
+        List<EventoSismico> eventos = persistenciaEventos.findAll();
+        
+        for(int i = 0; i < eventos.size(); i++)
+        {
+            EventoSismico evento = (EventoSismico) eventos.get(i);
+            EventoSismicoDTO e = new EventoSismicoDTO();
+            e.setDistanciaCosta(evento.getDistanciaCosta());
+            e.setLatitud(evento.getLatitud());
+            e.setLongitud(evento.getLongitud());
+            e.setZonaGeografica(evento.getZonaGeografica());
+            respuesta.add(e);
+        }
+        return respuesta;
     }
     
 }

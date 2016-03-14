@@ -8,6 +8,7 @@ package sistemaAlerta.servicios;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -40,7 +41,7 @@ public class SATTService {
     @EJB
     private IServicioSensores sensoresEjb;
     
-    @EJB
+    @Inject
     private IServicioEventosSismicos eventosEjb;
     
     /**
@@ -71,8 +72,9 @@ public class SATTService {
     public BoletinDTO registrarEventoSismico(EventoSismicoDTO evento)
     {
         eventosEjb.agregarEventoSismico(evento);
-        Sensor sensorMasCercano = sensoresEjb.darSensorMasCercano(evento);
-        return sattEjb.generarBoletin(evento, sensorMasCercano);
+        //Sensor sensorMasCercano = sensoresEjb.darSensorMasCercano(evento);
+        //return sattEjb.generarBoletin(evento, sensorMasCercano);
+        return null;
     }
     
     /**
