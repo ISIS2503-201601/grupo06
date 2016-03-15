@@ -5,6 +5,7 @@
  */
 package sistemaAlerta.thread;
 
+import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import sistemaAlerta.dto.EventoSismicoDTO;
@@ -43,6 +44,7 @@ public class SATTMonitor extends Thread{
      * Evento sismico original
      */
     private EventoSismicoDTO eventoOriginal;
+    private List<EscenarioPremodelado> listaEscenarios;
     
     /**
      * Evento sismico generado
@@ -53,10 +55,10 @@ public class SATTMonitor extends Thread{
     
     
     //Constructor
-    public SATTMonitor(EventoSismicoDTO eventoOriginal, Sensor sensorMasCercano, double alturaOriginal)
+    public SATTMonitor(EventoSismicoDTO eventoOriginal, Sensor sensorMasCercano, double alturaOriginal, List<EscenarioPremodelado> listaEscenarios )
     {
         this.sensorMasCercano = sensorMasCercano;
-       
+        this.listaEscenarios=listaEscenarios;
         this.alturaOriginal = alturaOriginal;
         this.eventoOriginal = eventoOriginal;
         alerta = true;
@@ -81,14 +83,30 @@ public class SATTMonitor extends Thread{
                 double differencia = Math.abs(alturaOriginal-alturaActual);
                 if(differencia >= 1.5)
                 {
-                   String perfilNuevo = servicioSatt.darPerfilPreModelado(eventoOriginal, sensorMasCercano.getUltimaMedicion(), tiempoLlegadaNuevo);
-                   
+                 String perfilNuevo=null;  
+        //Se asume que los intervalos de los escenarios son disyuntos
+        for(EscenarioPremodelado escenario : listaEscenarios)
+        {
+            if(eventoOriginal.getZonaGeografica().equals(escenario.getZona())) 
+            {
+                if(sensorMasCercano.getUltimaMedicion().getAltura() <= escenario.getAlturaMaxima()
+                   && sensorMasCercano.getUltimaMedicion().getAltura() >= escenario.getAlturaMinima()
+                   && tiempoLlegadaNuevo <= escenario.getTiempoMaximo()
+                   && tiempoLlegadaNuevo >= escenario.getTiempoMinimo())
+                {
+                    perfilNuevo = escenario.getPerfil();
+                    break;
+                }
+            }
+            
+        }
+       
+        
                    //Generar y enviar un nuevo boletin
                    /*
                    * TODO
                    */
                    //Test
-                   perfilNuevo = EscenarioPremodelado.PRECAUCION;
                    System.out.println("Perfil: " + perfilNuevo);
                    
                    if(perfilNuevo.equals(EscenarioPremodelado.INFORMATIVO))

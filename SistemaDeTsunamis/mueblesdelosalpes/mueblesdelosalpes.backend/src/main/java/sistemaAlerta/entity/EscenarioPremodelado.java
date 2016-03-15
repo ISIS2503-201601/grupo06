@@ -37,7 +37,7 @@ public class EscenarioPremodelado {
     /**
      * Altura minima de la ola
      */
-    private double alutraMinima;
+    private double alturaMinima;
     
     /**
      * Tiempo maximo de llegada
@@ -94,17 +94,17 @@ public class EscenarioPremodelado {
     }
 
     /**
-     * @return the alutraMinima
+     * @return the alturaMinima
      */
-    public double getAlutraMinima() {
-        return alutraMinima;
+    public double getAlturaMinima() {
+        return alturaMinima;
     }
 
     /**
-     * @param alutraMinima the alutraMinima to set
+     * @param alturaMinima the alturaMinima to set
      */
-    public void setAlutraMinima(double alutraMinima) {
-        this.alutraMinima = alutraMinima;
+    public void setAlturaMinima(double alutraMinima) {
+        this.alturaMinima = alutraMinima;
     }
 
     /**

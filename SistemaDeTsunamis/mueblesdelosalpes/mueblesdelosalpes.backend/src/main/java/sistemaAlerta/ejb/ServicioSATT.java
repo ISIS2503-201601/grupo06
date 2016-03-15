@@ -63,7 +63,8 @@ public class ServicioSATT implements IServicioSATT{
             boletin.setTiempoLlegada(tiempoLlegada);
             boletin.setZonaGeografica(evento.getZonaGeografica());
             //Seguimiento 
-            //SATTMonitor monitor = new SATTMonitor(evento, sensorMasCercano, tiempoLlegada);
+            List<EscenarioPremodelado> escenarios = persistenciEscenarios.findAll();
+            SATTMonitor monitor = new SATTMonitor(evento, sensorMasCercano, tiempoLlegada,escenarios);
             //monitor.start();
             
             persistenciaBoletines.create(boletin);
@@ -88,7 +89,7 @@ public class ServicioSATT implements IServicioSATT{
             if(evento.getZonaGeografica().equals(escenario.getZona())) 
             {
                 if(medicion.getAltura() <= escenario.getAlturaMaxima()
-                   && medicion.getAltura() >= escenario.getAlutraMinima()
+                   && medicion.getAltura() >= escenario.getAlturaMinima()
                    && tiempoLlegada <= escenario.getTiempoMaximo()
                    && tiempoLlegada >= escenario.getTiempoMinimo())
                 {
@@ -136,7 +137,7 @@ public class ServicioSATT implements IServicioSATT{
                 tiempoMax = temp;
             }
             
-            aleatorioPerfil = (int)Math.random();
+            aleatorioPerfil = (int)Math.random()*10;
             
             if(aleatorioPerfil <= 2)
                 perfil = EscenarioPremodelado.ALARMA;
@@ -157,10 +158,25 @@ public class ServicioSATT implements IServicioSATT{
             
             EscenarioPremodelado escenario = new EscenarioPremodelado();
             escenario.setAlturaMaxima(alturaMax);
-            escenario.setAlutraMinima(alturaMin);
+            escenario.setAlturaMinima(alturaMin);
             escenario.setTiempoMaximo(tiempoMax);
             escenario.setTiempoMinimo(tiempoMin);
-            escenario.setPerfil(perfil);
+            if(alturaMax==10&&alturaMin>7.5&&tiempoMin==0&&tiempoMax<2.5)
+            {
+            escenario.setPerfil(EscenarioPremodelado.ALARMA);
+            }
+            else if(alturaMax<7.5&&alturaMin>5&&tiempoMin>2.5&&tiempoMax<5)
+            {
+            escenario.setPerfil(EscenarioPremodelado.ALERTA);
+            }
+            else if(alturaMax<5&&alturaMin>2.5&&tiempoMin>5&&tiempoMax<7.5)
+            {
+            escenario.setPerfil(EscenarioPremodelado.PRECAUCION);
+            }
+            else
+            {
+            escenario.setPerfil(EscenarioPremodelado.INFORMATIVO);
+            }
             escenario.setZona(zonaGeografica);
             persistenciEscenarios.create(escenario);
         }

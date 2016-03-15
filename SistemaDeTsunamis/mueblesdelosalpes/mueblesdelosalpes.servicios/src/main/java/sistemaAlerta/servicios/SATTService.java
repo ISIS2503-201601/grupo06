@@ -90,12 +90,19 @@ public class SATTService {
     /**
      * Configuracion inicial de 4000 sensores
      */
-    @POST
+    @GET
     @Path("sensores/")
     public void configurarSensores()
     {
         sensoresEjb.configurarSensores();
     }
+    @GET
+    @Path("escenarios/")
+    public void generarEscenarios()
+    {
+        sattEjb.generarEscenario();
+    }
+    
     
     
 }
