@@ -15,6 +15,7 @@ import sistemaAlerta.entity.Sensor;
 import sistemaAlerta.interfaces.IServicioSATT;
 import sistemaAlerta.persistenciaMock.PersistenciaBoletinesMock;
 import sistemaAlerta.persistenciaMock.PersistenciaEscenariosMock;
+import sistemaAlerta.thread.SATTMonitor;
 
 /**
  * Servicio de SATT
@@ -46,7 +47,7 @@ public class ServicioSATT implements IServicioSATT{
         String perfil = darPerfilPreModelado(evento, medicion, tiempoLlegada);
         
         //Test
-        //perfil = EscenarioPremodelado.ALERTA;
+        perfil = EscenarioPremodelado.ALERTA;
         
         if(perfil != null)
         {
@@ -62,8 +63,8 @@ public class ServicioSATT implements IServicioSATT{
             boletin.setTiempoLlegada(tiempoLlegada);
             boletin.setZonaGeografica(evento.getZonaGeografica());
             //Seguimiento 
-//            SATTMonitor monitor = new SATTMonitor(evento, sensorMasCercano, this, tiempoLlegada);
-//            monitor.start();
+            //SATTMonitor monitor = new SATTMonitor(evento, sensorMasCercano, tiempoLlegada);
+            //monitor.start();
             
             persistenciaBoletines.create(boletin);
             return respuesta;

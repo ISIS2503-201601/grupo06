@@ -6,7 +6,6 @@
 package sistemaAlerta.servicios;
 
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -18,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import sistemaAlerta.dto.BoletinDTO;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.dto.ParametroDTO;
-import sistemaAlerta.entity.Parametro;
 import sistemaAlerta.entity.Sensor;
 import sistemaAlerta.interfaces.IServicioEventosSismicos;
 import sistemaAlerta.interfaces.IServicioSATT;
@@ -72,9 +70,9 @@ public class SATTService {
     public BoletinDTO registrarEventoSismico(EventoSismicoDTO evento)
     {
         eventosEjb.agregarEventoSismico(evento);
-        //Sensor sensorMasCercano = sensoresEjb.darSensorMasCercano(evento);
-        //return sattEjb.generarBoletin(evento, sensorMasCercano);
-        return null;
+        Sensor sensorMasCercano = sensoresEjb.darSensorMasCercano(evento);
+        return sattEjb.generarBoletin(evento, sensorMasCercano);
+        //return null;
     }
     
     /**
@@ -87,6 +85,16 @@ public class SATTService {
         sensoresEjb.darMedidas();
         sattEjb.generarEscenario();
         return eventosEjb.darEventosSismicos();
+    }
+    
+    /**
+     * Configuracion inicial de 4000 sensores
+     */
+    @POST
+    @Path("sensores/")
+    public void configurarSensores()
+    {
+        sensoresEjb.configurarSensores();
     }
     
     

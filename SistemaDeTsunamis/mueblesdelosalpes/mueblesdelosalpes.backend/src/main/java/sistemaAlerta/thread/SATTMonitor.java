@@ -5,6 +5,8 @@
  */
 package sistemaAlerta.thread;
 
+import javax.ejb.EJB;
+import javax.inject.Inject;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.entity.EscenarioPremodelado;
 import sistemaAlerta.entity.Parametro;
@@ -29,6 +31,7 @@ public class SATTMonitor extends Thread{
     /**
      * Servicio de persistencia de escenarios para variable de sincronizacion
      */
+    @Inject
     private IServicioSATT servicioSatt;
     
     /**
@@ -50,10 +53,10 @@ public class SATTMonitor extends Thread{
     
     
     //Constructor
-    public SATTMonitor(EventoSismicoDTO eventoOriginal, Sensor sensorMasCercano, IServicioSATT servicioSatt, double alturaOriginal)
+    public SATTMonitor(EventoSismicoDTO eventoOriginal, Sensor sensorMasCercano, double alturaOriginal)
     {
         this.sensorMasCercano = sensorMasCercano;
-        this.servicioSatt = servicioSatt;
+       
         this.alturaOriginal = alturaOriginal;
         this.eventoOriginal = eventoOriginal;
         alerta = true;
@@ -66,7 +69,9 @@ public class SATTMonitor extends Thread{
     {
         while(alerta)
         {
-            try
+            synchronized(this)
+            {
+                try
             {
                 //Espera de 5 minutos
                 this.wait(3000);
@@ -82,6 +87,9 @@ public class SATTMonitor extends Thread{
                    /*
                    * TODO
                    */
+                   //Test
+                   perfilNuevo = EscenarioPremodelado.PRECAUCION;
+                   System.out.println("Perfil: " + perfilNuevo);
                    
                    if(perfilNuevo.equals(EscenarioPremodelado.INFORMATIVO))
                        alerta = false;
@@ -91,6 +99,7 @@ public class SATTMonitor extends Thread{
             catch(InterruptedException e)
             {
                 e.printStackTrace();
+            }
             }
             System.out.println("Estado normal");
         }

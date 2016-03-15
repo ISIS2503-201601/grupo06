@@ -47,7 +47,8 @@ public class ServicioSensores implements IServicioSensores {
        medidaNueva.setAltura(medida.getAltura());
        medidaNueva.setIdSensor(medida.getIdSensor());
        medidaNueva.setVelocidad(medida.getVelocidad());
-       Sensor sensor = persistenciaSensores.find(medida.getIdSensor());
+       //Sensor sensor = persistenciaSensores.find(medida.getIdSensor());
+       Sensor sensor = persistenciaSensores.getSensorNumeroSerie(medida.getIdSensor().intValue());
        sensor.setUltimaMedicion(medidaNueva);
        persistenciaSensores.update(sensor);
        persistenciaParametros.create(medidaNueva);
@@ -56,23 +57,7 @@ public class ServicioSensores implements IServicioSensores {
     
     public List<ParametroDTO> darMedidas() {
              
-        for(int i = 0; i < 4000; i++)
-        {
-            int zona = (int)(Math.random()*10);
-            double longitud = Math.random()*100;
-            double latitud = Math.random()*100;
-            String zonaGeografica;
-            if(zona <= 5)
-                zonaGeografica = Sensor.ZONA_ATLANTICA;
-            else
-                zonaGeografica = Sensor.ZONA_PACIFICA;
-            
-            Sensor nuevo = new Sensor();
-            nuevo.setLatitud(latitud);
-            nuevo.setLongitud(longitud);
-            nuevo.setZonaGeografica(zonaGeografica);
-            persistenciaSensores.create(nuevo);
-        }
+    
         
         List<ParametroDTO> respuesta = new ArrayList<ParametroDTO>();
         List<Parametro> parametros = persistenciaParametros.findAll();
@@ -113,9 +98,14 @@ public class ServicioSensores implements IServicioSensores {
             }
         }
         
-        return masCercano;
+        //return masCercano;
         //Test
-        //return sensores.get(3);
+        for(Sensor s : sensores)
+        {
+            if(s.getNumeroDeSerie() == 37)
+                return s;
+        }
+        return null;
     }
     
     /**
@@ -138,6 +128,31 @@ public class ServicioSensores implements IServicioSensores {
         double c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         
         return R*c;
+    }
+    
+    /**
+     * Configuracion inicial de 4000 sensores
+     */
+    public void configurarSensores()
+    {
+        for(int i = 0; i < 4000; i++)
+        {
+            int zona = (int)(Math.random()*10);
+            double longitud = Math.random()*100;
+            double latitud = Math.random()*100;
+            String zonaGeografica;
+            if(zona <= 5)
+                zonaGeografica = Sensor.ZONA_ATLANTICA;
+            else
+                zonaGeografica = Sensor.ZONA_PACIFICA;
+            
+            Sensor nuevo = new Sensor();
+            nuevo.setLatitud(latitud);
+            nuevo.setLongitud(longitud);
+            nuevo.setZonaGeografica(zonaGeografica);
+            nuevo.setNumeroDeSerie(i);
+            persistenciaSensores.create(nuevo);
+        }
     }
     
 }

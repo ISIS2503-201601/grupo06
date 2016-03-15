@@ -30,4 +30,6 @@ public interface IServicioSensores {
      */
     public Sensor darSensorMasCercano(EventoSismicoDTO evento);
     
+    public void configurarSensores();
+    
 }

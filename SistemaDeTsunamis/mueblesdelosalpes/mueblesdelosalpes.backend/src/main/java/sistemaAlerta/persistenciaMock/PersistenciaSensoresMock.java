@@ -5,6 +5,8 @@
  */
 package sistemaAlerta.persistenciaMock;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import sistemaAlerta.entity.Sensor;
 
 /**
@@ -16,6 +18,17 @@ public class PersistenciaSensoresMock extends CrudPersistence<Sensor>{
     public PersistenciaSensoresMock()
     {
         this.entityClass = Sensor.class;
+    }
+    
+
+    public EntityManager getEm() {
+        return em;
+    }
+    
+    public Sensor getSensorNumeroSerie(int numero)
+    {
+        Query q = getEm().createQuery("select u from Sensor u where u.numeroDeSerie = :num").setParameter("num", numero);
+        return (Sensor)q.getSingleResult();
     }
     
     

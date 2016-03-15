@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 
 /**
@@ -44,6 +45,8 @@ public class Sensor {
      * Latitud del sensor
      */
     private double latitud;
+    
+    private int numeroDeSerie;
     
     private Parametro ultimaMedicion;
     
@@ -121,6 +124,20 @@ public class Sensor {
     public void setUltimaMedicion(Parametro ultimaMedicion)
     {
         this.ultimaMedicion = ultimaMedicion;
+    }
+
+    /**
+     * @return the numeroDeSerie
+     */
+    public int getNumeroDeSerie() {
+        return numeroDeSerie;
+    }
+
+    /**
+     * @param numeroDeSerie the numeroDeSerie to set
+     */
+    public void setNumeroDeSerie(int numeroDeSerie) {
+        this.numeroDeSerie = numeroDeSerie;
     }
 
     
