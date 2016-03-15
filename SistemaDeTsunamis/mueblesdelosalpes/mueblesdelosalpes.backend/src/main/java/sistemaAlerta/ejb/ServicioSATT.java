@@ -65,7 +65,7 @@ public class ServicioSATT implements IServicioSATT{
             //Seguimiento 
             List<EscenarioPremodelado> escenarios = persistenciEscenarios.findAll();
             SATTMonitor monitor = new SATTMonitor(evento, sensorMasCercano, tiempoLlegada,escenarios);
-            //monitor.start();
+            monitor.start();
             
             persistenciaBoletines.create(boletin);
             return respuesta;
