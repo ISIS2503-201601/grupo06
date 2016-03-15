@@ -39,7 +39,23 @@ public class ServicioSensores implements IServicioSensores {
     //Constructor
     public ServicioSensores()
     {
+        
+    }
     
+    public boolean agregarMedidaSensor(ParametroDTO medida) {
+       Parametro medidaNueva = new Parametro();
+       medidaNueva.setAltura(medida.getAltura());
+       medidaNueva.setIdSensor(medida.getIdSensor());
+       medidaNueva.setVelocidad(medida.getVelocidad());
+       Sensor sensor = persistenciaSensores.find(medida.getIdSensor());
+       sensor.setUltimaMedicion(medidaNueva);
+       persistenciaSensores.update(sensor);
+       persistenciaParametros.create(medidaNueva);
+       return true;
+    }
+    
+    public List<ParametroDTO> darMedidas() {
+             
         for(int i = 0; i < 4000; i++)
         {
             int zona = (int)(Math.random()*10);
@@ -57,19 +73,7 @@ public class ServicioSensores implements IServicioSensores {
             nuevo.setZonaGeografica(zonaGeografica);
             persistenciaSensores.create(nuevo);
         }
-    }
-    
-    public boolean agregarMedidaSensor(ParametroDTO medida) {
-       Parametro medidaNueva = new Parametro();
-       medidaNueva.setAltura(medida.getAltura());
-       medidaNueva.setIdSensor(medida.getIdSensor());
-       medidaNueva.setVelocidad(medida.getVelocidad());
-       persistenciaParametros.create(medidaNueva);
-       return true;
-    }
-    
-    public List<ParametroDTO> darMedidas() {
-             
+        
         List<ParametroDTO> respuesta = new ArrayList<ParametroDTO>();
         List<Parametro> parametros = persistenciaParametros.findAll();
             for(int i = 0; i < parametros.size(); i++)

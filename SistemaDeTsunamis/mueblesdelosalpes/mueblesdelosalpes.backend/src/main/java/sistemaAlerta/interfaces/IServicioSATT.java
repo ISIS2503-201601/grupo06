@@ -5,6 +5,7 @@ package sistemaAlerta.interfaces;
 
 import sistemaAlerta.dto.BoletinDTO;
 import sistemaAlerta.dto.EventoSismicoDTO;
+import sistemaAlerta.entity.EscenarioPremodelado;
 import sistemaAlerta.entity.Parametro;
 import sistemaAlerta.entity.Sensor;
 
@@ -14,9 +15,10 @@ import sistemaAlerta.entity.Sensor;
  */
 public interface IServicioSATT {
     
-    /**
-     * Generar boletin a partir de un evento sismico y el sensor mas cercano
-     */
     public BoletinDTO generarBoletin(EventoSismicoDTO evento, Sensor sensorMasCercano);
+    
+    public String darPerfilPreModelado(EventoSismicoDTO evento, Parametro medicion, double tiempoLlegada);
+    
+    public EscenarioPremodelado generarEscenario();
     
 }

@@ -9,6 +9,7 @@ import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.entity.EscenarioPremodelado;
 import sistemaAlerta.entity.Parametro;
 import sistemaAlerta.entity.Sensor;
+import sistemaAlerta.interfaces.IServicioSATT;
 import sistemaAlerta.interfaces.IServicioSensores;
 import sistemaAlerta.persistenciaMock.PersistenciaEscenariosMock;
 import sistemaAlerta.persistenciaMock.PersistenciaEventosMock;
@@ -28,7 +29,7 @@ public class SATTMonitor extends Thread{
     /**
      * Servicio de persistencia de escenarios para variable de sincronizacion
      */
-    private PersistenciaEscenariosMock persistenciaEscenarios;
+    private IServicioSATT servicioSatt;
     
     /**
      * Altura de la ola original que origino el boletin
@@ -49,10 +50,10 @@ public class SATTMonitor extends Thread{
     
     
     //Constructor
-    public SATTMonitor(EventoSismicoDTO eventoOriginal, Sensor sensorMasCercano, PersistenciaEscenariosMock persistenciaEscenarios, double alturaOriginal)
+    public SATTMonitor(EventoSismicoDTO eventoOriginal, Sensor sensorMasCercano, IServicioSATT servicioSatt, double alturaOriginal)
     {
         this.sensorMasCercano = sensorMasCercano;
-        this.persistenciaEscenarios = persistenciaEscenarios;
+        this.servicioSatt = servicioSatt;
         this.alturaOriginal = alturaOriginal;
         this.eventoOriginal = eventoOriginal;
         alerta = true;
@@ -69,13 +70,13 @@ public class SATTMonitor extends Thread{
             {
                 //Espera de 5 minutos
                 this.wait(3000);
-                Parametro nuevaMedicion = sensorMasCercano.darUlitmaMedicion();
+                Parametro nuevaMedicion = sensorMasCercano.getUltimaMedicion();
                 double alturaActual = nuevaMedicion.getAltura();
                 double tiempoLlegadaNuevo = eventoOriginal.getDistanciaCosta()/nuevaMedicion.getVelocidad();
                 double differencia = Math.abs(alturaOriginal-alturaActual);
                 if(differencia >= 1.5)
                 {
-                   String perfilNuevo = persistenciaEscenarios.darPerfilPreModelado(eventoOriginal, sensorMasCercano.darUlitmaMedicion(), tiempoLlegadaNuevo);
+                   String perfilNuevo = servicioSatt.darPerfilPreModelado(eventoOriginal, sensorMasCercano.getUltimaMedicion(), tiempoLlegadaNuevo);
                    
                    //Generar y enviar un nuevo boletin
                    /*

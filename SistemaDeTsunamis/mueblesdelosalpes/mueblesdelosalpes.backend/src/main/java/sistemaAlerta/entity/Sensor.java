@@ -45,6 +45,8 @@ public class Sensor {
      */
     private double latitud;
     
+    private Parametro ultimaMedicion;
+    
     
     //Constructor
     public Sensor ()
@@ -111,10 +113,16 @@ public class Sensor {
     /**
      * Obtiene la ultima medicion del sensor
      */
-    public Parametro darUlitmaMedicion()
+    public Parametro getUltimaMedicion()
     {
-        return null;
+        return ultimaMedicion;
     }
+    
+    public void setUltimaMedicion(Parametro ultimaMedicion)
+    {
+        this.ultimaMedicion = ultimaMedicion;
+    }
+
     
     
 }

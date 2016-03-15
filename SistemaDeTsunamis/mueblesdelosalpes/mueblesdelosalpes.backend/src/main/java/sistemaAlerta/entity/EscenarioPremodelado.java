@@ -3,10 +3,15 @@
  */
 package sistemaAlerta.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Escenario premodelado
  * @author sebastian
  */
+@Entity
 public class EscenarioPremodelado {
     
     //Perfiles posibles
@@ -20,6 +25,10 @@ public class EscenarioPremodelado {
     public final static String ALARMA = "Alarma";
     
     //Atributos 
+    
+    @Id
+    @GeneratedValue(generator = "Escenario")
+    private Long id;
     /**
      * Altura maxima de la ola
      */
@@ -51,14 +60,23 @@ public class EscenarioPremodelado {
     private String zona;
     
     //Constructor
-    public EscenarioPremodelado(double alturaMax, double alturaMin, double tiempoMax, double tiempoMin, String perfil, String zonaGeo)
+    public EscenarioPremodelado()
     {
-        this.alturaMaxima = alturaMax;
-        this.alutraMinima = alturaMin;
-        this.tiempoMaximo = tiempoMax;
-        this.tiempoMinimo = tiempoMin;
-        this.perfil = perfil;
-        this.zona = zonaGeo;
+        
+    }
+    
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**

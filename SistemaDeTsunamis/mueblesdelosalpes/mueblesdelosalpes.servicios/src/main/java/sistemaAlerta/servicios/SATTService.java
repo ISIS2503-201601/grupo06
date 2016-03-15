@@ -35,10 +35,10 @@ import sistemaAlerta.interfaces.IServicioSensores;
 public class SATTService {
     
     //EJB's
-    @EJB
+    @Inject
     private IServicioSATT sattEjb;
     
-    @EJB
+    @Inject
     private IServicioSensores sensoresEjb;
     
     @Inject
@@ -84,6 +84,8 @@ public class SATTService {
     @Path("eventos/")
     public List<EventoSismicoDTO> darEventosSismicos()
     {
+        sensoresEjb.darMedidas();
+        sattEjb.generarEscenario();
         return eventosEjb.darEventosSismicos();
     }
     
