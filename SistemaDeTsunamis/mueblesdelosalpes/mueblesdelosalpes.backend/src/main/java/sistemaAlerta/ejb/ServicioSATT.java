@@ -177,6 +177,10 @@ public class ServicioSATT implements IServicioSATT{
             {
             escenario.setPerfil(EscenarioPremodelado.INFORMATIVO);
             }
+            if(escenario.getPerfil()==null)
+            {
+            escenario.setPerfil(EscenarioPremodelado.INFORMATIVO);
+            }
             escenario.setZona(zonaGeografica);
             persistenciEscenarios.create(escenario);
         }

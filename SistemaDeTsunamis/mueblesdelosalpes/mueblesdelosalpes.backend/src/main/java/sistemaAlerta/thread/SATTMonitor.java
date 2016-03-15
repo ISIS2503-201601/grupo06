@@ -97,8 +97,13 @@ public class SATTMonitor extends Thread{
                     perfilNuevo = escenario.getPerfil();
                     break;
                 }
+                
             }
             
+        }
+        if(perfilNuevo==null)
+        {
+        perfilNuevo="No se encuentra modelado";
         }
        
         
