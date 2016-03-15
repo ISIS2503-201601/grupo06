@@ -12,9 +12,6 @@
 
 package sistemaAlerta.ejb;
 
-import sistemaAlerta.dto.EventoSismico;
-import sistemaAlerta.interfaces.IServicioMensajeMockLocal;
-import sistemaAlerta.interfaces.IServicioMensajeMockRemote;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,9 +19,14 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import sistemaAlerta.dto.BoletinAlerta;
+import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.dto.Mensaje;
+import sistemaAlerta.entity.Boletin;
+import sistemaAlerta.entity.EventoSismico;
 import sistemaAlerta.interfaces.IServicioEventoSismicoMockLocal;
 import sistemaAlerta.interfaces.IServicioEventoSismicoMockRemote;
+import sistemaAlerta.persistenciaMock.PersistenciaBoletinesMock;
+import sistemaAlerta.persistenciaMock.PersistenciaEventosMock;
 
 /**
  * Implementacion de los servicios del carrito de compras en el sistema.
@@ -38,9 +40,10 @@ public class ServicioEventoSismicoMock implements IServicioEventoSismicoMockRemo
     // Atributos
     //-----------------------------------------------------------
     
-    //@Inject private EventoPersistence persistence;
+    @Inject private PersistenciaEventosMock persistenciaEventos;
     
-    private List<EventoSismico> eventos;
+    @Inject private PersistenciaBoletinesMock persistenciaBoletines;
+    
     
     //-----------------------------------------------------------
     // Constructor
@@ -51,7 +54,7 @@ public class ServicioEventoSismicoMock implements IServicioEventoSismicoMockRemo
      */
     public ServicioEventoSismicoMock()
     {
-        eventos = new ArrayList();
+        
     }
 
     //-----------------------------------------------------------
@@ -63,32 +66,44 @@ public class ServicioEventoSismicoMock implements IServicioEventoSismicoMockRemo
      * Modifica el inventario del carrito
      * @param inventario Nueva lista de muebles
      */
-    public void recibirEvento(EventoSismico evento)
+    public void recibirEvento(EventoSismicoDTO evento)
     {
-        //EventoEntity entidad = new EventoEntity(evento.getId(), evento.getLatitud(), evento.getLongitud(), evento.getDistancia());
-        //persistence.create(entidad);
+        EventoSismico entidad = new EventoSismico();
+        entidad.setDistanciaCosta(evento.getDistanciaCosta());
+        entidad.setLatitud(evento.getLatitud());
+        entidad.setLongitud(evento.getLongitud());
+        entidad.setZonaGeografica(evento.getZonaGeografica());
+        persistenciaEventos.create(entidad);
         
-        eventos.add(evento);
     }
     
-    public List<EventoSismico> darEventos()
+    /**
+     *
+     * @return
+     */
+    @Override
+    public List<EventoSismicoDTO> darEventos()
     {
-        //List<EventoEntity> entidades = persistence.findAll();
-        //List<EventoSismico> retorno = new ArrayList();
-        //for(int i = 0; i < entidades.size(); i++)
-        //{
-            //EventoEntity temp = (EventoEntity) entidades.get(i);
-            //EventoSismico nuevo = new EventoSismico(temp.getId(), temp.getLatitud(), temp.getLongitud(), temp.getDistancia());
-            //retorno.add(nuevo);
-        //}
+        List<EventoSismico> entidades = persistenciaEventos.findAll();
+        List<EventoSismicoDTO> retorno = new ArrayList();
+        for(int i = 0; i < entidades.size(); i++)
+        {
+            EventoSismico temp = (EventoSismico) entidades.get(i);
+            EventoSismicoDTO nuevo = new EventoSismicoDTO();
+            nuevo.setId(temp.getId());
+            nuevo.setDistanciaCosta(temp.getDistanciaCosta());
+            nuevo.setLatitud(temp.getLatitud());
+            nuevo.setLongitud(temp.getLongitud());
+            
+            retorno.add(nuevo);
+        }
         
-        //return retorno;
+        return retorno;
         
-        return eventos;
     }
 
     @Override
-    public BoletinAlerta generarBoletin(Mensaje mensaje, EventoSismico evento) {
+    public BoletinAlerta generarBoletin(Mensaje mensaje, EventoSismicoDTO evento) {
         
         String zona = "";
         double tiempo = 0;
@@ -101,13 +116,18 @@ public class ServicioEventoSismicoMock implements IServicioEventoSismicoMockRemo
             zona = "Pacifico";
         
         //Tiempo de llegada de la ola
-        tiempo = evento.getDistancia()/mensaje.getVelocidad();
+        tiempo = evento.getDistanciaCosta()/mensaje.getVelocidad();
         
         /**
          * TODO: encontrar el perfil de alerta segun escenarios premodelados
          */
         perfil = "informativo";
-        
+        Boletin boletin = new Boletin();
+        boletin.setAltura(mensaje.getAltura());
+        boletin.setPerfil(perfil);
+        boletin.setZonaGeografica(zona);
+        boletin.setTiempoLlegada(tiempo);
+        persistenciaBoletines.create(boletin);
         return new BoletinAlerta(1, perfil, zona, tiempo, mensaje.getAltura());
         
         

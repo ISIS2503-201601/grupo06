@@ -14,7 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import sistemaAlerta.dto.BoletinAlerta;
-import sistemaAlerta.dto.EventoSismico;
+import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.dto.Mensaje;
 import sistemaAlerta.interfaces.IServicioEventoSismicoMockLocal;
 import sistemaAlerta.interfaces.IServicioMensajeMockLocal;
@@ -37,7 +37,7 @@ public class EventoSismicoService {
     
     @POST
     @Path("enviar/") 
-    public BoletinAlerta recibirEvento(EventoSismico evento) {
+    public BoletinAlerta recibirEvento(EventoSismicoDTO evento) {
         
         eventoEjb.recibirEvento(evento);
         Mensaje m = mensajesEjb.buscarUltimoRegistroSensorCercano(evento.getLatitud(), evento.getLongitud());
@@ -47,7 +47,7 @@ public class EventoSismicoService {
     
     @GET
     @Path("ver/") 
-    public List<EventoSismico> verEventos() {
+    public List<EventoSismicoDTO> verEventos() {
         
         return eventoEjb.darEventos();
         

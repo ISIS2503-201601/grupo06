@@ -3,15 +3,22 @@
  */
 package sistemaAlerta.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Boletin de alerta
  * @author sebastian
  */
+@Entity
 public class Boletin {
     
     /**
      * Id
      */
+    @Id
+    @GeneratedValue(generator = "Boletin")
     private Long id;
     
     /**

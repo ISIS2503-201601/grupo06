@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import sistemaAlerta.dto.Mensaje;
 import java.util.List;
 import javax.ejb.Remote;
-import sistemaAlerta.dto.EventoSismico;
+import sistemaAlerta.dto.EventoSismicoDTO;
 
 
 /**
@@ -33,9 +33,9 @@ public interface IServicioEventoSismicoMockRemote
      * Agrega un mueble al sistema
      * @param mueble Nuevo mueble
      */
-    public void recibirEvento(EventoSismico evento);
+    public void recibirEvento(EventoSismicoDTO evento);
     
-    public List<EventoSismico> darEventos();
+    public List<EventoSismicoDTO> darEventos();
 
 
     

@@ -8,10 +8,12 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import sistemaAlerta.dto.BoletinDTO;
 import sistemaAlerta.dto.EventoSismicoDTO;
+import sistemaAlerta.entity.Boletin;
 import sistemaAlerta.entity.EscenarioPremodelado;
 import sistemaAlerta.entity.Parametro;
 import sistemaAlerta.entity.Sensor;
 import sistemaAlerta.interfaces.IServicioSATT;
+import sistemaAlerta.persistenciaMock.PersistenciaBoletinesMock;
 import sistemaAlerta.persistenciaMock.PersistenciaEscenariosMock;
 
 /**
@@ -27,6 +29,8 @@ public class ServicioSATT implements IServicioSATT{
      * Escenarios premodelados
      */
     @Inject private PersistenciaEscenariosMock persistenciEscenarios;
+    
+    @Inject private PersistenciaBoletinesMock persistenciaBoletines;
     
     //Constructor
     public ServicioSATT()
@@ -52,10 +56,16 @@ public class ServicioSATT implements IServicioSATT{
             respuesta.setTiempoLlegada(tiempoLlegada);
             respuesta.setZonaGeografica(evento.getZonaGeografica());
             
+            Boletin boletin = new Boletin();
+            boletin.setAltura(medicion.getAltura());
+            boletin.setPerfil(perfil);
+            boletin.setTiempoLlegada(tiempoLlegada);
+            boletin.setZonaGeografica(evento.getZonaGeografica());
             //Seguimiento 
 //            SATTMonitor monitor = new SATTMonitor(evento, sensorMasCercano, this, tiempoLlegada);
 //            monitor.start();
             
+            persistenciaBoletines.create(boletin);
             return respuesta;
         }
         else

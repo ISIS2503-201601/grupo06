@@ -18,7 +18,7 @@ import sistemaAlerta.dto.Mensaje;
 import java.util.List;
 import javax.ejb.Local;
 import sistemaAlerta.dto.BoletinAlerta;
-import sistemaAlerta.dto.EventoSismico;
+import sistemaAlerta.dto.EventoSismicoDTO;
 
 /**
  * Contrato funcional de los servicios que se le prestan al catálogo
@@ -32,12 +32,12 @@ public interface IServicioEventoSismicoMockLocal
      * Agrega un mueble al sistema
      * @param mueble Nuevo mueble
      */
-    public void recibirEvento(EventoSismico evento);
+    public void recibirEvento(EventoSismicoDTO evento);
 
-    public List<EventoSismico> darEventos();
+    public List<EventoSismicoDTO> darEventos();
     
     //Genera un boletin de alerta
-    public BoletinAlerta generarBoletin(Mensaje mensaje, EventoSismico evento);
+    public BoletinAlerta generarBoletin(Mensaje mensaje, EventoSismicoDTO evento);
 
 
 }
