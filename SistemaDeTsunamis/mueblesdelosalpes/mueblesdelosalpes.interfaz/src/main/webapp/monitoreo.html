@@ -21,7 +21,7 @@
 		<div class="col-md-10 col-md-offset-1">
                     <br>
                     <br>
-			<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" class="img-circle">
+			<img alt="Bootstrap Image Preview" src="logo.jpg" style="width:150px" class="img-circle">
 			<div class="page-header">
 				<h1>
 					Sistema de Alerta Temprana de Tsunamis <small><span><small>(</small></span>SATT)</small>
@@ -143,5 +143,39 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
+    
+    
+    <script>
+        
+        //AJAX METHOD
+        
+        self.ajax = function(uri, method, data) {
+            var request = {
+                url: uri,
+                type: method,
+                contentType: "application/json",
+                accepts: "application/json",
+                cache: false,
+                dataType: 'json',
+                data: JSON.stringify(data),
+                beforeSend: function (xhr) {
+//                    xhr.setRequestHeader("Authorization", 
+//                        "Basic " + btoa(self.username + ":" + self.password));
+                },
+                error: function(jqXHR) {
+                    console.log("ajax error " + jqXHR.status +" and "+ jqXHR);
+                }
+            };
+            return $.ajax(request);
+        };
+        
+        
+        
+      
+  </script>
   </body>
+  
+  
+  
+  
 </html>
