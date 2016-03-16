@@ -103,7 +103,7 @@ public class SATTMonitor extends Thread{
         }
         if(perfilNuevo==null)
         {
-        perfilNuevo="No se encuentra modelado";
+        perfilNuevo="Informativo";
         }
        
         

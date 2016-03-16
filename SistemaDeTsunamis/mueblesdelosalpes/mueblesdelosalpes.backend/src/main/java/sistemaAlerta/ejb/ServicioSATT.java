@@ -119,36 +119,27 @@ public class ServicioSATT implements IServicioSATT{
         int aleatorioPerfil, aleatorioZona;
         String zonaGeografica, perfil;
         
-        alturaMax = Math.random()*10;
-            alturaMin = Math.random()*10;
-            if(alturaMax < alturaMin)
-            {
-                temp = alturaMin;
-                alturaMin = alturaMax;
-                alturaMax = temp;
-            }
-            
-            tiempoMax = Math.random()*10;
-            tiempoMin = Math.random()*10;
-            if(tiempoMax < tiempoMin)
-            {
-                temp = tiempoMin;
-                tiempoMin = tiempoMax;
-                tiempoMax = temp;
-            }
-            
-            aleatorioPerfil = (int)Math.random()*10;
-            
-            if(aleatorioPerfil <= 2)
-                perfil = EscenarioPremodelado.ALARMA;
-            else if(aleatorioPerfil > 2 && aleatorioPerfil <= 5)
-                perfil = EscenarioPremodelado.ALERTA;
-            else if(aleatorioPerfil > 5 && aleatorioPerfil <= 8)
-                perfil = EscenarioPremodelado.INFORMATIVO;
-            else
-                perfil = EscenarioPremodelado.PRECAUCION;
-            
-            aleatorioZona = (int)Math.random();
+        alturaMax = (i/150)*10;
+        if(alturaMax>2.5)
+        {
+            alturaMin=alturaMax-2.5;
+        }
+        else
+        {
+            alturaMin=0;
+        }
+        tiempoMax = (1-(i/150))*10;
+        if(tiempoMax>2.5)
+        {
+            tiempoMin=tiempoMax-2.5;
+        }
+        else
+        {
+            tiempoMin=0;
+        }
+        
+           
+            aleatorioZona = (int)Math.random()*10;
             
             if(aleatorioZona <=5)
                 zonaGeografica = Sensor.ZONA_ATLANTICA;
