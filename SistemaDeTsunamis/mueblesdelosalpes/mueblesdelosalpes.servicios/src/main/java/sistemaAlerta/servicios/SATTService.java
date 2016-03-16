@@ -47,6 +47,7 @@ public class SATTService {
      */
     @POST
     @Path("medicion/")
+    @Consumes(MediaType.APPLICATION_JSON)
     public void registrarSensor(ParametroDTO medicion)
     {
         sensoresEjb.agregarMedidaSensor(medicion);
@@ -92,7 +93,6 @@ public class SATTService {
      */
     @GET
     @Path("sensores/")
-    @Produces(MediaType.APPLICATION_JSON)
     public void configurarSensores()
     {
         sensoresEjb.configurarSensores();

@@ -195,6 +195,10 @@
             $.ajax({
                 url: 'http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/medicion',
                 type: 'post',
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
                 dataType: 'json',
                 success: function (data) {
                  
@@ -204,7 +208,6 @@
             
             
         }
-        
         
         var idEvento = 0;
         function postEvento() {
@@ -222,6 +225,10 @@
             $.ajax({
                 url: 'http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/evento',
                 type: 'post',
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
                 dataType: 'json',
                 success: function (data) {
                  
