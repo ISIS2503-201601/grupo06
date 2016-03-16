@@ -40,12 +40,9 @@
 				
 			</ul>
 			<h3 class="text-primary">
-				Tiempo restante para actualizar información de los sensores: (23 segundos)
+                            Tiempo restante para actualizar información de los sensores: <span id="spanSecs">60 segundos</span>
 			</h3>
-			<div class="progress progress-striped">
-				<div class="progress-bar progress-success">
-				</div>
-			</div>
+			
 			<table class="table table-hover table-condensed">
 				<thead>
 					<tr>
@@ -147,8 +144,6 @@
     
     <script>
         
-        //AJAX METHOD
-        
         self.ajax = function(uri, method, data) {
             var request = {
                 url: uri,
@@ -159,8 +154,7 @@
                 dataType: 'json',
                 data: JSON.stringify(data),
                 beforeSend: function (xhr) {
-//                    xhr.setRequestHeader("Authorization", 
-//                        "Basic " + btoa(self.username + ":" + self.password));
+                    
                 },
                 error: function(jqXHR) {
                     console.log("ajax error " + jqXHR.status +" and "+ jqXHR);
@@ -169,6 +163,68 @@
             return $.ajax(request);
         };
         
+        
+        
+        var stringGET = "http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/sensores";
+            
+        self.ajax(stringGET, 'GET').done(function(data) {
+              
+              for (var i = 0; i < 4000; i++) {
+                  
+                  sendInfoSensor();
+                  
+              }
+              
+              var stringGET = "http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/mediciones";
+            
+              self.ajax(stringGET, 'GET').done(function(data) {
+              
+                alert(data);
+              
+              });
+        });
+            
+         
+        var secs = 60;
+        window.setInterval(function(){
+            
+          if (secs > 0) {
+            secs--;
+            document.getElementById("spanSecs").innerHTML = secs + " segundos";
+          } else {
+            
+            
+            secs = 60;
+            document.getElementById("spanSecs").innerHTML = secs + " segundos";
+          }
+        }, 1000);
+        
+        
+        
+        
+        var idSens = 0;
+        function sendInfoSensor() {
+            
+            idSens++;
+            var parametro = {
+                idSensor: idSens,
+                altura:Math.random(),
+                velocidad:Math.random()
+            };
+
+            $.ajax({
+                url: 'http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/medicion',
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                 
+                },
+                data: parametro
+            });
+            
+            
+        }
+
         
         
       

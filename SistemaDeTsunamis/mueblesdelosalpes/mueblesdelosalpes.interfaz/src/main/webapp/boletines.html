@@ -39,13 +39,7 @@
 				</li>
 				
 			</ul>
-			<h3 class="text-primary">
-				Tiempo restante para recibir un nuevo boletin: (23 segundos)
-			</h3>
-			<div class="progress progress-striped">
-				<div class="progress-bar progress-success">
-				</div>
-			</div>
+			
 			<table class="table table-hover table-bordered">
 				<thead>
 					<tr>
@@ -158,8 +152,7 @@
                 dataType: 'json',
                 data: JSON.stringify(data),
                 beforeSend: function (xhr) {
-//                    xhr.setRequestHeader("Authorization", 
-//                        "Basic " + btoa(self.username + ":" + self.password));
+                    
                 },
                 error: function(jqXHR) {
                     console.log("ajax error " + jqXHR.status +" and "+ jqXHR);
@@ -168,8 +161,76 @@
             return $.ajax(request);
         };
         
+        var stringGET = "http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/sensores";
+            
+        self.ajax(stringGET, 'GET').done(function(data) {
+              
+              var stringGET2 = "http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/escenarios";
+            
+              self.ajax(stringGET2, 'GET').done(function(data) {
+              
+                 for (var i = 0; i < 4000; i++) {
+                  
+                    sendInfoSensor();
+                  
+                 }
+              
+                 postEvento();
+             
+              
+              });
+        });
         
         
+        var idSens = 0;
+        function sendInfoSensor() {
+            
+            idSens++;
+            var parametro = {
+                idSensor: idSens,
+                altura:Math.random(),
+                velocidad:Math.random()
+            };
+
+            $.ajax({
+                url: 'http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/medicion',
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                 
+                },
+                data: parametro
+            });
+            
+            
+        }
+        
+        
+        var idEvento = 0;
+        function postEvento() {
+            
+            idEvento++;
+            
+            var evento = {
+                id: idEvento,
+                longitud:Math.random(),
+                latitud:Math.random(),
+                distanciaCosta:Math.random(),
+                zonaGeografica: "Atlantica"
+            };
+
+            $.ajax({
+                url: 'http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/evento',
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                 
+                },
+                data: parametro
+            });
+            
+            
+        }
       
   </script>
   </body>

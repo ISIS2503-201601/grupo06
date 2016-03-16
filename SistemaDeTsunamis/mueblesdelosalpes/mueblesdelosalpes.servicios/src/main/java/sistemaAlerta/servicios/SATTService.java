@@ -92,6 +92,7 @@ public class SATTService {
      */
     @GET
     @Path("sensores/")
+    @Produces(MediaType.APPLICATION_JSON)
     public void configurarSensores()
     {
         sensoresEjb.configurarSensores();
