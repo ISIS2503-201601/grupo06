@@ -1,51 +1,74 @@
-<!doctype html>
-<html lang="en" ng-app="angularTodo">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Muebles De Los Alpes</title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-</head>
-<body ng-controller="mainController">
-	<div class="container">
-		<!--Cabecera-->
-		<div class="jumbotron text-center">
-			<h1>Elementos Disponibles <span class="label label-info">{{ items.length }}</span></h1>
-		</div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<!--Lista de Todos-->
-		<div id="item-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
-				<div class="checkbox" ng-repeat="i in items">
-					<label>
-						<input type="checkbox" ng-click="anadirCarro(i)"> 
-						{{ i.nombre}}
-					</label>
-				</div>
+    <title>SATT</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" class="img-circle">
+			<div class="page-header">
+				<h1>
+					Sistema de Alerta Temprana de Tsunamis <small><span><small>(</small></span>SATT)</small>
+				</h1>
+			</div>
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="index.html">Inicio</a>
+				</li>
+				<li>
+					<a href="monitoreo.html">Monitoreo</a>
+				</li>
+				<li class="disabled">
+					<a href="boletines.html">Boletines</a>
+				</li>
+				
+			</ul>
+			<div class="alert alert-dismissable alert-warning">
+				 
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+					×
+				</button>
+				<h4>
+					Alerta!
+				</h4> <strong>Un nuevo boletín ha sido generado!</strong>.<a href="#" class="alert-link">Ver boletín</a>
+			</div>
+			<div class="jumbotron">
+				<h2>
+					Bienvenido al Sistema
+				</h2>
+				<p>
+					<span>Uno de los fenómenos naturales más peligrosos son los tsunamis los cuales consisten en grandes olas marinas generadas por desplazamientos súbitos del agua durante terremotos, erupciones volcánicas, o deslizamientos en el fondo del mar. La gran mayoría y los más grandes ocurren en el Océano Pacífico, y son causados por terremotos de gran magnitud en las zonas de subducción. Generalmente hay un tiempo entre la ocurrencia del movimiento telúrico, la formación del tsunami y los efectos devastadores del mismo. Tener un conocimiento preciso del peligro que representa un tsunami es relevante para la mitigación ante este tipo de emergencias.</span>
+				</p>
+				<p>
+					Colombia hace parte de un complejo ambiente tectónico mundial porque tres placas tectónicas interactúan en la esquina noroeste de Sudamérica: la placa Nazca, la placa de Suramérica y la placa Caribe. La placa Nazca se mueve en dirección Oeste – Este a una velocidad de 6.1 cm por año, la placa de Suramérica se mueve en dirección Este – Oeste a una velocidad relativa de 1 a 2 cm por año y la placa Caribe se mueve en dirección Oeste – Este a una velocidad relativamente pequeña.
+				</p>
+				<p>
+					Esta situación hace probable que se presenten este tipo de fenómenos con frecuencia en el país. El Sistema Nacional de Detección de Alerta de Tsunamis (SNDAT) es responsable de monitorear, predecir y alertar la presencia de tsunamis en las costas colombianas. La entidad se propone desarrollar un Sistema de Alerta Temprana de Tsunamis (SATT) para determinar el nivel de peligro, establecer las zonas de evacuación y asignación de recursos de emergencia/rescate ante la presencia de un tsunami. Este sistema debe ser preciso, efectivo y tener una adecuada comprensión de los procesos hidrodinámicos para evitar pérdidas humanas en este tipo de situaciones.
+				</p>
+				<p>
+					<a class="btn btn-primary btn-large" href="#">Learn more</a>
+				</p>
 			</div>
 		</div>
+	</div>
+</div>
 
-		<!--Formulario para insertar nuevos Todo
-		<div id="todo-form" class="row">
-			<div class="col-sm-8 col-sm-offset-2 text-center">
-				<form>
-                                    <label ng-repeat="mueble in muebles">
-  <input type="checkbox" checklist-model="user.roles" checklist-value="role"> {{role}}
-</label>
-					<div class="form-group">
-						<input type="text" class="form-control input-lg text-center" 
-								placeholder="Inserta una tarea nueva"
-								ng-model="formData.text">
-                                                
-					</div>
-					<button class="btn btn-primary btn-lg" ng-click="createTodo()">Añadir</button>
-				</form>
-			</div>
-		</div>
-	</div>-->
-
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-	<script src="main.js"></script>
-</body>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
 </html>
