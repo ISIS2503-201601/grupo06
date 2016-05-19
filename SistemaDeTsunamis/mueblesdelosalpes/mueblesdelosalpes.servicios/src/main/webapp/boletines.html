@@ -40,7 +40,7 @@
 				
 			</ul>
 			
-			<table class="table table-hover table-bordered">
+			<table class="table table-hover table-bordered" id="tableboletines">
 				<thead>
 					<tr>
 						<th>
@@ -58,76 +58,6 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>
-							1
-						</td>
-						<td>
-							Pacifico
-						</td>
-						<td>
-							13
-						</td>
-						<td>
-							1
-						</td>
-					</tr>
-					<tr class="active">
-						<td>
-							2
-						</td>
-						<td>
-							Atlantico
-						</td>
-						<td>
-							12
-						</td>
-						<td>
-							1
-						</td>
-					</tr>
-					<tr class="success">
-						<td>
-							3
-						</td>
-						<td>
-							Atlantico
-						</td>
-						<td>
-							32
-						</td>
-						<td>
-							2
-						</td>
-					</tr>
-					<tr class="warning">
-						<td>
-							4
-						</td>
-						<td>
-							Pacifico
-						</td>
-						<td>
-							45
-						</td>
-						<td>
-							4
-						</td>
-					</tr>
-					<tr class="danger">
-						<td>
-							5
-						</td>
-						<td>
-							Atlantico
-						</td>
-						<td>
-							78
-						</td>
-						<td>
-							10
-						</td>
-					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -161,40 +91,33 @@
             return $.ajax(request);
         };
         
-        var stringGET = "http://localhost:8080/webresources/SATT/sensores";
-            
-        self.ajax(stringGET, 'GET').done(function(data) {
+      
               
-              var stringGET2 = "http://localhost:8080/webresources/SATT/escenarios";
             
-              self.ajax(stringGET2, 'GET').done(function(data) {
-              
-                 for (var i = 0; i < 4000; i++) {
+                 for (var i = 0; i < 500; i++) {
                   
-                    sendInfoSensor();
+                    sendInfoSensor(i);
                   
                  }
-              
-                 postEvento();
-             
-              
-              });
-        });
+                 for (var j = 0 ; j<10;j++)
+                 {
+                 postEvento(j);
+                }
+ 
         
         
-        var idSens = 0;
-        function sendInfoSensor() {
+     
+        function sendInfoSensor(val) {
             
-            idSens++;
-            var parametro = {
-                idSensor: idSens,
-                altura:Math.random(),
-                velocidad:Math.random()
-            };
+            var parametro = JSON.stringify({
+                idSensor: val,
+                altura:Math.floor((Math.random() * 100) + 1),
+                velocidad:Math.floor((Math.random() * 100) + 1)
+            });
 
             $.ajax({
                 url: 'http://localhost:8080/webresources/SATT/medicion',
-                type: 'post',
+                type: 'POST',
                 headers: { 
                     'Accept': 'application/json',
                     'Content-Type': 'application/json' 
@@ -209,31 +132,37 @@
             
         }
         
-        var idEvento = 0;
-        function postEvento() {
+        function postEvento(valu) {
             
-            idEvento++;
+            var prob = Math.random()*10;
+            var zona = "pacífica";
+            if(prob>5)
+            {
+                zona = "atlántica";
+            }
+            var evento = JSON.stringify({
+                id: valu,
+                longitud: Math.floor((Math.random() * 100) + 1),
+                latitud: Math.floor((Math.random() * 100) + 1),
+                distanciaCosta: Math.floor((Math.random() * 100) + 1),
+                zonaGeografica: zona
+            });
             
-            var evento = {
-                id: idEvento,
-                longitud:Math.random(),
-                latitud:Math.random(),
-                distanciaCosta:Math.random(),
-                zonaGeografica: "Atlantica"
-            };
-
+            
             $.ajax({
                 url: 'http://localhost:8080/webresources/SATT/evento',
-                type: 'post',
+                type: 'POST',
                 headers: { 
                     'Accept': 'application/json',
                     'Content-Type': 'application/json' 
                 },
                 dataType: 'json',
                 success: function (data) {
-                 
+                     (function ($) {
+                      $('#tableboletines').append('<tr><td>' + data.perfil + '</td> <td>' + data.zonaGeografica + '</td> <td>' + data.tiempoLlegada + '</td><td>' + data.altura + '</td> </tr> ');
+                    })(jQuery);
                 },
-                data: parametro
+                data: evento
             });
             
             

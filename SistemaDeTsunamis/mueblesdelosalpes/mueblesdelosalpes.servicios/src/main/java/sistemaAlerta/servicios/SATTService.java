@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import sistemaAlerta.dto.BoletinDTO;
 import sistemaAlerta.dto.EventoSismicoDTO;
 import sistemaAlerta.dto.ParametroDTO;
+import sistemaAlerta.entity.Boletin;
+import sistemaAlerta.entity.EscenarioPremodelado;
 import sistemaAlerta.entity.Sensor;
 import sistemaAlerta.interfaces.IServicioEventosSismicos;
 import sistemaAlerta.interfaces.IServicioSATT;
@@ -83,26 +85,53 @@ public class SATTService {
     @Path("eventos/")
     public List<EventoSismicoDTO> darEventosSismicos()
     {
-        sensoresEjb.darMedidas();
-        sattEjb.generarEscenario();
         return eventosEjb.darEventosSismicos();
     }
+    
+     /**
+     * Retorna todos los eventos sismicos
+     */
+    @GET
+    @Path("boletines/")
+    public List<Boletin> darBoletines()
+    {
+        return sattEjb.darBoletines();
+    }
+    
+    
     
     /**
      * Configuracion inicial de 4000 sensores
      */
     @GET
     @Path("sensores/")
+    public List<Sensor> darSensores()
+    {
+       return sensoresEjb.darSensores();
+    }
+     /**
+     * Configuracion inicial de 4000 sensores
+     */
+    @GET
+    @Path("iniciarSensores/")
     public void configurarSensores()
     {
         sensoresEjb.configurarSensores();
     }
+    
     @GET
-    @Path("escenarios/")
+    @Path("iniciarEscenarios/")
     public void generarEscenarios()
     {
         sattEjb.generarEscenario();
     }
+    @GET
+    @Path("escenarios/")
+    public List<EscenarioPremodelado> darEscenarios()
+    {
+        return sattEjb.darEscenarios();
+    }
+    
     
     
     

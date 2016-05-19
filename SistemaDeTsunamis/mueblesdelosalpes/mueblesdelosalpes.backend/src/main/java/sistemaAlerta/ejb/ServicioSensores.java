@@ -41,7 +41,13 @@ public class ServicioSensores implements IServicioSensores {
     {
         
     }
-    
+    public List<Sensor> darSensores()
+    {
+        List<Sensor> parametros = persistenciaSensores.findAll();
+     
+        
+        return parametros;
+    }
     public boolean agregarMedidaSensor(ParametroDTO medida) {
        Parametro medidaNueva = new Parametro();
        medidaNueva.setAltura(medida.getAltura());
@@ -60,16 +66,19 @@ public class ServicioSensores implements IServicioSensores {
     
         
         List<ParametroDTO> respuesta = new ArrayList<ParametroDTO>();
-        List<Parametro> parametros = persistenciaParametros.findAll();
+        List<Sensor> parametros = persistenciaSensores.findAll();
             for(int i = 0; i < parametros.size(); i++)
             {
 
-                Parametro medida = (Parametro) parametros.get(i);
+                Sensor s = (Sensor) parametros.get(i);
+                if(s.getUltimaMedicion()!=null)
+                {
                 ParametroDTO param = new ParametroDTO();
-                param.setAltura(medida.getAltura());
-                param.setIdSensor(medida.getIdSensor());
-                param.setVelocidad(medida.getVelocidad());
+                param.setAltura(s.getUltimaMedicion().getAltura());
+                param.setIdSensor(s.getUltimaMedicion().getIdSensor());
+                param.setVelocidad(s.getUltimaMedicion().getVelocidad());
                 respuesta.add(param);
+                }
             }
 
         

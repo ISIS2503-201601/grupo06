@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SATT</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+                    <br>
+                    <br>
+			<img alt="Bootstrap Image Preview" src="logo.jpg" style="width:150px" class="img-circle">
+			<div class="page-header">
+				<h1>
+					Sistema de Alerta Temprana de Tsunamis <small><span><small>(</small></span>SATT)</small>
+				</h1>
+			</div>
+			<ul class="nav nav-tabs">
+				<li>
+					<a href="index.html">Inicio</a>
+				</li>
+				<li class="active">
+					<a href="monitoreo.html">Monitoreo</a>
+				</li>
+				<li>
+					<a href="boletines.html">Boletines</a>
+				</li>
+				
+			</ul>
+			<h3 class="text-primary">
+                            Tiempo restante para actualizar información de los sensores: <span id="spanSecs">60 segundos</span>
+			</h3>
+			
+			<table class="table table-hover table-condensed" id="tableSensores">
+				<thead>
+					<tr>
+						<th>
+							# Sensor
+						</th>
+						
+						<th>
+							Velocidad de la Ola (Km/h)
+						</th>
+						<th>
+							Altitud de la Ola (m)
+						</th>
+					</tr>
+				</thead>
+                                <tbody >
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    
+    
+    <script>
+        
+        self.ajax = function(uri, method, data) {
+            var request = {
+                url: uri,
+                type: method,
+                cache: false,
+                beforeSend: function (xhr) {
+                    
+                },
+                error: function(jqXHR) {
+                    console.log("ajax error " + jqXHR.status +" and "+ jqXHR);
+                }
+            };
+            return $.ajax(request);
+        };
+        
+        console.log("Preparando Sensores");
+        
+        //var stringGET = "http://localhost:8080/webresources/SATT/sensores";
+            
+        //self.ajax(stringGET, 'GET').done(function(data) {
+        //      console.log("Sensores Preparados");
+        //      console.log("Generando Informacion de sensores");
+        function actualizar(){
+              for (var i = 0; i < 5; i++) {
+                  
+                  sendInfoSensor(i+1);
+                  
+              }
+          }
+          actualizar();
+              
+              
+        //});
+            
+         
+        var secs = 60;
+        window.setInterval(function(){
+            
+          if (secs > 0) {
+            secs--;
+            document.getElementById("spanSecs").innerHTML = secs + " segundos";
+          } else {
+            
+            actualizar();
+            secs = 60;
+            document.getElementById("spanSecs").innerHTML = secs + " segundos";
+          }
+        }, 1000);
+        
+        
+        
+        
+   
+        function sendInfoSensor(val) {
+            
+    
+            
+            console.log("Creando info al sensor: " + val);
+            
+            var parametro = JSON.stringify({"idSensor": val ,
+                "altura": Math.floor((Math.random() * 100) + 1) ,
+                "velocidad":Math.floor((Math.random() * 100) + 1)
+            });
+
+            $.ajax({
+                type: "POST",
+                url: 'http://localhost:8080/webresources/SATT/medicion',
+                headers: { 
+                   'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log("Creanda la info del sensor: " + val);
+                    if (val === 5) {
+                        console.log("Obteniendo Mediciones");
+                        var stringGET2 = "http://localhost:8080/webresources/SATT/mediciones";
+
+                        self.ajax(stringGET2, 'GET').done(function(data) {
+
+                          if (val === 5) {
+                        console.log("Obteniendo Mediciones");
+                        var stringGET2 = "http://localhost:8080/webresources/SATT/mediciones";
+
+                        self.ajax(stringGET2, 'GET').done(function(data) {
+                               var tableBody = document.getElementById("tableSensores");
+                          console.log(data);
+                          for(var i = 0; i<data.length;i++)
+                          {
+                              
+                               (function ($) {
+                      $('#tableSensores').append('<tr><td>' + data[i].idSensor + '</td> <td>' + data[i].velocidad + '</td> <td>' + data[i].altura + '</td> </tr> ');
+                    })(jQuery);
+                        
+                            };
+                        });
+                    }
+
+                        });
+                    }
+                },
+                data: parametro, 
+                error: function(xhr, status, error) {
+                    console.log("Error al crear la info del sensor: " + val + " con error: " );
+                    console.log(error);
+                    if (val === 5) {
+                        console.log("Obteniendo Mediciones");
+                        var stringGET2 = "http://localhost:8080/webresources/SATT/mediciones";
+
+                        self.ajax(stringGET2, 'GET').done(function(data) {
+                               var tableBody = document.getElementById("tableSensores");
+                          console.log(data);
+                          for(var i = 0; i<data.length;i++)
+                          {
+                              
+                               (function ($) {
+                      $('#tableSensores').append('<tr><td>' + data[i].idSensor + '</td> <td>' + data[i].velocidad + '</td> <td>' + data[i].altura + '</td> </tr> ');
+                    })(jQuery);
+                        
+                            };
+                        });
+                    }
+                }
+                
+            });
+            
+            
+        }
+
+        
+        
+      
+  </script>
+  </body>
+  
+  
+  
+  
+</html>

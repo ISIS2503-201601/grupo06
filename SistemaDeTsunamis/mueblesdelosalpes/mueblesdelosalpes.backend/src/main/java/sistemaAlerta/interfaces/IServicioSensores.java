@@ -20,6 +20,7 @@ public interface IServicioSensores {
      */
     public boolean agregarMedidaSensor(ParametroDTO medida);
     
+    public List<Sensor> darSensores();
     /**
      * Retorna todas las medidas de los sensores
      */

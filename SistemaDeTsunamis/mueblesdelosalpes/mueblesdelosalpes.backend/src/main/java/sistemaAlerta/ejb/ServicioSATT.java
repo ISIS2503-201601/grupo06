@@ -38,7 +38,10 @@ public class ServicioSATT implements IServicioSATT{
     {
         
     }
-    
+    public List<Boletin> darBoletines()
+    {
+    return persistenciaBoletines.findAll();
+   }
     public BoletinDTO generarBoletin(EventoSismicoDTO evento, Sensor sensorMasCercano) 
     {
         //Se calcula el tiempo de llegada de la ola
@@ -178,5 +181,8 @@ public class ServicioSATT implements IServicioSATT{
             return new EscenarioPremodelado();
     }
     
-    
+    public List<EscenarioPremodelado> darEscenarios()
+    {
+    return  persistenciEscenarios.findAll();
+    }
 }

@@ -161,7 +161,7 @@
         
         
         
-        var stringGET = "http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/sensores";
+        var stringGET = "http://localhost:8080/webresources/SATT/sensores";
             
         self.ajax(stringGET, 'GET').done(function(data) {
               
@@ -171,7 +171,7 @@
                   
               }
               
-              var stringGET2 = "http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/mediciones";
+              var stringGET2 = "http://localhost:8080/webresources/SATT/mediciones";
             
               self.ajax(stringGET2, 'GET').done(function(data) {
               
@@ -209,8 +209,9 @@
             };
 
             $.ajax({
-                url: 'http://localhost:8080/sistemaAlerta.servicios/webresources/SATT/medicion',
-                type: 'post',
+                url: 'http://localhost:8080/webresources/SATT/medicion',
+                type: 'POST',
+                crossDomain: true,
                 headers: { 
                     'Accept': 'application/json',
                     'Content-Type': 'application/json' 
