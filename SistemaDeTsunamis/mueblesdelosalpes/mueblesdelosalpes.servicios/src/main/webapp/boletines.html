@@ -32,13 +32,48 @@
 					<a href="index.html">Inicio</a>
 				</li>
 				<li>
-					<a href="monitoreo.html">Monitoreo</a>
+					<a href="mediciones.html">Mediciones</a>
 				</li>
 				<li  class="active">
 					<a href="boletines.html">Boletines</a>
 				</li>
+                                <li>
+					<a href="sensores.html">Sensores</a>
+				</li>
 				
 			</ul>
+                    
+                    <div class="row">
+                    <div class="col-md-2"><h3>Filtrar por</h3></div></div>
+                    
+                    <div class="row" style="padding:2px">
+
+                    <div class="col-md-2"><label>Zona Geográfica</label></div>
+                    <div class="col-md-2"><select id="zona">
+                    <option value="ninguna">ninguna</option>
+                    <option value="pacífica">pacífica</option>
+                    <option value="atlántica">atlántica</option>
+                    </select></div>
+                    </div>
+                    
+                    <div class="row" style="padding:2px">
+                    <div class="col-md-2"><label>Tiempo de Llegada</label></div></div>
+                    <div class="row" style="padding:2px">
+                    
+                    <div class="col-md-2"><label>Mínimo</label></div>
+                    <div class="col-md-2"><input type="number" name="tiempoMin" value="" id="tiempoMin" /></div>
+                    <div class="col-md-2"><label>Máximo</label></div>
+                    <div class="col-md-2"><input type="number" name="tiempoMax" value="" id="tiempoMax" /></div>
+                    
+                    </div>
+                    
+                    <div class="row" style="padding:2px">
+
+                    <div class="col-md-2"><a onClick="filter()">Aplicar Filtro</a></div>                    
+                    </div>
+                    
+                    <br>
+                    
 			
 			<table class="table table-hover table-bordered" id="tableboletines">
 				<thead>
@@ -57,7 +92,7 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="tableBody">
 				</tbody>
 			</table>
 		</div>
@@ -132,6 +167,8 @@
             
         }
         
+        var info = [];
+                
         function postEvento(valu) {
             
             var prob = Math.random()*10;
@@ -158,12 +195,43 @@
                 },
                 dataType: 'json',
                 success: function (data) {
-                     (function ($) {
+                    (function ($) {
+                        info.splice(1, 0, data);
                       $('#tableboletines').append('<tr><td>' + data.perfil + '</td> <td>' + data.zonaGeografica + '</td> <td>' + data.tiempoLlegada + '</td><td>' + data.altura + '</td> </tr> ');
                     })(jQuery);
                 },
                 data: evento
             });
+            
+            this.filter = function () {
+                $("#tableBody").empty();
+                var tiempomin = 0;            
+                var tiempomax = 1000;
+                var zona = "ninguna";
+                if(document.getElementsByName("tiempoMin")[0].value)
+                {
+                    tiempomin = parseInt(document.getElementsByName("tiempoMin")[0].value);
+                }      
+                if(document.getElementsByName("tiempoMax")[0].value)
+                {
+                    tiempomax = parseInt(document.getElementsByName("tiempoMax")[0].value);
+                }
+                var e = document.getElementById("zona");
+                var zona = e.options[e.selectedIndex].value;
+                
+                console.log(zona);
+                for(var i = 0; i < info.length; i++)
+                {
+               
+                    var temp = info[i];
+                    if(temp.tiempoLlegada < tiempomax && temp.tiempoLlegada > tiempomin && (zona === "ninguna" || zona === temp.zonaGeografica))
+                    {
+                      $('#tableboletines').append('<tr><td>' + temp.perfil + '</td> <td>' + temp.zonaGeografica + '</td> <td>' + temp.tiempoLlegada + '</td><td>' + temp.altura + '</td> </tr> ');
+                    } 
+                }
+                
+                return false;
+            };
             
             
         }

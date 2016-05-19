@@ -32,17 +32,47 @@
 					<a href="index.html">Inicio</a>
 				</li>
 				<li class="active">
-					<a href="monitoreo.html">Monitoreo</a>
+					<a href="mediciones.html">Mediciones</a>
 				</li>
 				<li>
 					<a href="boletines.html">Boletines</a>
+				</li>
+                                <li>
+					<a href="sensores.html">Sensores</a>
 				</li>
 				
 			</ul>
 			<h3 class="text-primary">
                             Tiempo restante para actualizar información de los sensores: <span id="spanSecs">60 segundos</span>
 			</h3>
-			
+                        
+			<br>
+                    <div class="row">
+                    <div class="col-md-2"><h3>Filtrar por</h3></div></div>
+                    
+                    <div class="row" style="padding:5px">
+                    <div class="col-md-2"><label>Velocidad Mínima</label></div>
+                    <div class="col-md-2"><input type="number" name="velocidadMin" value="" id="velocidadMin" /></div>
+                    <div class="col-md-2"><label>Velocidad Máxima</label></div>
+                    <div class="col-md-2"><input type="number" name="velocidadMax" value="" id="velocidadMax" /></div>
+                    
+                    </div>
+                    <div class="row" style="padding:5px">
+
+                    <div class="col-md-2"><label>Altura Mínima</label></div>
+                    <div class="col-md-2"><input type="number" name="altitudMin" value="" id="altitudMin" /></div>
+                    <div class="col-md-2"><label>Altura Máxima</label></div>
+                    <div class="col-md-2"><input type="number" name="altitudMax" value="" id="altitudMax" /></div>
+                    
+                    </div>
+                    <div class="row" style="padding:5px">
+
+                    <div class="col-md-2"><label>Id</label></div>
+                    <div class="col-md-2"><input type="number" name="idSens" value="" id="idSens" /></div>
+                    <div class="col-md-2"><a onClick="filter()">Aplicar Filtro</a></div>                    
+                    </div>
+                    
+                    <br>
 			<table class="table table-hover table-condensed" id="tableSensores">
 				<thead>
 					<tr>
@@ -58,7 +88,7 @@
 						</th>
 					</tr>
 				</thead>
-                                <tbody >
+                                <tbody id="tableBody" >
 					
 				</tbody>
 			</table>
@@ -88,8 +118,7 @@
             return $.ajax(request);
         };
         
-        console.log("Preparando Sensores");
-        
+               
         //var stringGET = "http://localhost:8080/webresources/SATT/sensores";
             
         //self.ajax(stringGET, 'GET').done(function(data) {
@@ -123,15 +152,11 @@
         }, 1000);
         
         
-        
+        var info = [];
         
    
         function sendInfoSensor(val) {
-            
-    
-            
-            console.log("Creando info al sensor: " + val);
-            
+                       
             var parametro = JSON.stringify({"idSensor": val ,
                 "altura": Math.floor((Math.random() * 100) + 1) ,
                 "velocidad":Math.floor((Math.random() * 100) + 1)
@@ -146,20 +171,21 @@
                 },
                 dataType: 'json',
                 success: function (data) {
-                    console.log("Creanda la info del sensor: " + val);
+                                        
                     if (val === 5) {
-                        console.log("Obteniendo Mediciones");
+                        
                         var stringGET2 = "http://localhost:8080/webresources/SATT/mediciones";
 
                         self.ajax(stringGET2, 'GET').done(function(data) {
 
                           if (val === 5) {
-                        console.log("Obteniendo Mediciones");
+                        
                         var stringGET2 = "http://localhost:8080/webresources/SATT/mediciones";
 
                         self.ajax(stringGET2, 'GET').done(function(data) {
+                            info = data;
                                var tableBody = document.getElementById("tableSensores");
-                          console.log(data);
+                          
                           for(var i = 0; i<data.length;i++)
                           {
                               
@@ -201,6 +227,48 @@
             
             
         }
+        
+        this.filter = function () {
+                $("#tableBody").empty();
+                var velmin = 0;            
+                var velmax = 1000;
+                var altmin = 0;            
+                var altmax = 1000;
+                var ids = undefined;
+                
+                if(document.getElementsByName("velocidadMin")[0].value)
+                {
+                    velmin = parseInt(document.getElementsByName("velocidadMin")[0].value);
+                }
+                if(document.getElementsByName("velocidadMax")[0].value)
+                {
+                    velmax = parseInt(document.getElementsByName("velocidadMax")[0].value);
+                }
+                if(document.getElementsByName("altitudMin")[0].value)
+                {
+                    altmin = parseInt(document.getElementsByName("altitudMin")[0].value); 
+                }
+                if(document.getElementsByName("altitudMax")[0].value)
+                {
+                    altmax = parseInt(document.getElementsByName("altitudMax")[0].value);
+                }
+                if(document.getElementsByName("idSens")[0].value)
+                {
+                    ids = parseInt(document.getElementsByName("idSens")[0].value);
+                }
+                
+                
+                for(var i = 0; i < info.length; i++)
+                {
+               
+                    var temp = info[i];
+                    if(temp.altura < altmax && temp.altura > altmin && temp.velocidad < velmax && temp.velocidad > velmin && (!ids || ids === temp.idSensor))
+                    {
+                      $('#tableSensores').append('<tr><td>' + info[i].idSensor + '</td> <td>' + info[i].velocidad + '</td> <td>' + info[i].altura + '</td> </tr> ');
+                    } 
+                }
+                return false;
+            };
 
         
         

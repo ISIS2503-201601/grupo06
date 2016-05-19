@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SATT</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+                    <br>
+                    <br>
+                    <img alt="Bootstrap Image Preview" src="logo.jpg" style="width:150px"  class="img-circle">
+			<div class="page-header">
+				<h1>
+					Sistema de Alerta Temprana de Tsunamis <small><span><small>(</small></span>SATT)</small>
+				</h1>
+			</div>
+			<ul class="nav nav-tabs">
+				<li>
+					<a href="index.html">Inicio</a>
+				</li>
+				<li>
+					<a href="mediciones.html">Monitoreo</a>
+				</li>
+				<li>
+					<a href="boletines.html">Boletines</a>
+				</li>
+                                <li  class="active">
+					<a href="sensores.html">Sensores</a>
+				</li>
+				
+			</ul>
+                    <br>
+                    <div class="row">
+                    <div class="col-md-2"><h3>Filtrar por</h3></div></div>
+                    
+                    <div class="row" style="padding:5px">
+                    <div class="col-md-2"><label>Longitud Mínima</label></div>
+                    <div class="col-md-2"><input type="number" name="longitudMin" value="" id="longitudMin" /></div>
+                    <div class="col-md-2"><label>Longitud Máxima</label></div>
+                    <div class="col-md-2"><input type="number" name="longitudMax" value="" id="longitudMax" /></div>
+                    
+                    </div>
+                    <div class="row" style="padding:5px">
+
+                    <div class="col-md-2"><label>Latitud Mínima</label></div>
+                    <div class="col-md-2"><input type="number" name="latitudMin" value="" id="longitudMin" /></div>
+                    <div class="col-md-2"><label>Latitud Máxima</label></div>
+                    <div class="col-md-2"><input type="number" name="latitudMax" value="" id="longitudMax" /></div>
+                    
+                    </div>
+                    <div class="row" style="padding:5px">
+
+                    <div class="col-md-2"><label>Id</label></div>
+                    <div class="col-md-2"><input type="number" name="idSens" value="" id="idSens" /></div>
+                    <div class="col-md-2"><a onClick="filter()">Aplicar Filtro</a></div>                    
+                    </div>
+                    
+                    <br>
+                        
+			
+			<table class="table table-hover table-bordered" id="tablesensores">
+                            <thead>
+					<tr>
+						<th>
+							Id Sensor
+						</th>
+						<th>
+							Zona Geografica
+						</th>
+						<th>
+							Longitud
+						</th>
+						<th>
+							Latitud
+						</th>
+                                                <th>
+							Número de serie
+						</th>
+                                                <th>
+							Última Medición
+						</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody">
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    
+    <script>
+        
+        //AJAX METHOD
+        var info = null;
+        
+        self.ajax = function(uri, method, data) {
+            var request = {
+                url: uri,
+                type: method,
+                contentType: "application/json",
+                accepts: "application/json",
+                cache: false,
+                dataType: 'json',
+                data: JSON.stringify(data),
+                beforeSend: function (xhr) {
+                    
+                },
+                error: function(jqXHR) {
+                    console.log("ajax error " + jqXHR.status +" and "+ jqXHR);
+                }
+            };
+            return $.ajax(request);
+        };  
+    
+    $.ajax({
+                url: 'http://localhost:8080/webresources/SATT/sensores',
+                type: 'GET',
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                },
+                dataType: 'json',
+                success: function (data) {
+                     info = data;
+                    for(var i = 0; i<data.length;i++)
+                          {
+                              
+                               (function ($) {
+                      $('#tablesensores').append('<tr><td>' + data[i].id + '</td> <td>' + data[i].zonaGeografica + '</td> <td>' + data[i].longitud + '</td><td>' + data[i].latitud + '</td><td>' + data[i].numeroDeSerie + '</td><td>' + data[i].ultimaMedicion + '</td> </tr> ');
+                    })(jQuery);
+                        
+                            };
+                }
+            });
+            
+            
+            this.filter = function () {
+                $("#tableBody").empty();
+                var longmin = 0;            
+                var longmax = 1000;
+                var latmin = 0;            
+                var latmax = 1000;
+                var ids = undefined;
+                
+                if(document.getElementsByName("longitudMin")[0].value)
+                {
+                    longmin = parseInt(document.getElementsByName("longitudMin")[0].value);
+                }
+                if(document.getElementsByName("longitudMax")[0].value)
+                {
+                    longmax = parseInt(document.getElementsByName("longitudMax")[0].value);
+                }
+                if(document.getElementsByName("latitudMin")[0].value)
+                {
+                    latmin = parseInt(document.getElementsByName("latitudMin")[0].value); 
+                }
+                if(document.getElementsByName("latitudMax")[0].value)
+                {
+                    latmax = parseInt(document.getElementsByName("latitudMax")[0].value);
+                }
+                if(document.getElementsByName("idSens")[0].value)
+                {
+                    ids = parseInt(document.getElementsByName("idSens")[0].value);
+                }
+                
+                
+                for(var i = 0; i < info.length; i++)
+                {
+               
+                    var temp = info[i];
+                    if(temp.longitud < longmax && temp.longitud > longmin && temp.latitud < latmax && temp.latitud > latmin && (!ids || ids === temp.id))
+                    {
+                        $('#tablesensores').append('<tr><td>' + info[i].id + '</td> <td>' + info[i].zonaGeografica + '</td> <td>' + info[i].longitud + '</td><td>' + info[i].latitud + '</td><td>' + info[i].numeroDeSerie + '</td><td>' + info[i].ultimaMedicion + '</td> </tr> ');
+                    } 
+                }
+                return false;
+            };
+            
+            
+            
+       
+        
+      
+  </script>
+  </body>
+</html>
