@@ -40,6 +40,9 @@
                                 <li>
 					<a href="sensores.html">Sensores</a>
 				</li>
+                                <li>
+					<a href="eventos.html">Eventos</a>
+				</li>
 				
 			</ul>
 			<h3 class="text-primary">
@@ -69,7 +72,8 @@
 
                     <div class="col-md-2"><label>Id</label></div>
                     <div class="col-md-2"><input type="number" name="idSens" value="" id="idSens" /></div>
-                    <div class="col-md-2"><a onClick="filter()">Aplicar Filtro</a></div>                    
+                    <div class="col-md-2"><a onClick="filter()">Aplicar Filtro</a></div>         
+                   
                     </div>
                     
                     <br>
@@ -92,6 +96,9 @@
 					
 				</tbody>
 			</table>
+                    <button onclick="anterior()"> Anterior </button>
+                    <button onclick="siguiente()"> Siguiente </button>
+                    <p id="contadorPaginas"></p>
 		</div>
 	</div>
 </div>
@@ -153,6 +160,10 @@
         
         
         var info = [];
+        var paginaMediciones = 1;
+        var datosPorPagina = 10;
+        var pagina = 1;
+        var paginas = 0;
         
    
         function sendInfoSensor(val) {
@@ -171,7 +182,7 @@
                 },
                 dataType: 'json',
                 success: function (data) {
-                                        
+                                     
                     if (val === 5) {
                         
                         var stringGET2 = "http://localhost:8080/webresources/SATT/mediciones";
@@ -184,9 +195,10 @@
 
                         self.ajax(stringGET2, 'GET').done(function(data) {
                             info = data;
+                            paginas = Math.ceil(data.length/datosPorPagina);
                                var tableBody = document.getElementById("tableSensores");
                           
-                          for(var i = 0; i<data.length;i++)
+                          for(var i = 0; i<datosPorPagina;i++)
                           {
                               
                                (function ($) {
@@ -227,6 +239,29 @@
             
             
         }
+        
+        this.siguiente = function(){
+            
+            $("#tableBody").empty();
+            pagina += 1;
+            for (var i = 0; i < datosPorPagina; i++)
+            {
+                var indice = i + datosPorPagina*(pagina - 1);
+                $('#tableSensores').append('<tr><td>' + info[indice].idSensor + '</td> <td>' + info[indice].velocidad + '</td> <td>' + info[indice].altura + '</td> </tr> ');
+            }
+            document.getElementById("contadorPaginas").innerHTML = "Pagina " + pagina + " de " + paginas;
+        };
+        
+        this.anterior = function(){
+            $("#tableBody").empty();
+            pagina -= 1;
+            for (var i = 0; i < datosPorPagina; i++)
+            {
+                var indice = i + datosPorPagina*(pagina - 1);
+                $('#tableSensores').append('<tr><td>' + info[indice].idSensor + '</td> <td>' + info[indice].velocidad + '</td> <td>' + info[indice].altura + '</td> </tr> ');
+            }
+            document.getElementById("contadorPaginas").innerHTML = "Pagina " + pagina + " de " + paginas;
+        };
         
         this.filter = function () {
                 $("#tableBody").empty();
