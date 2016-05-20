@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_sensor"
+            android:icon="@drawable/ic_sensor"
+            android:title="Sensores" />
+        <item
+            android:id="@+id/nav_event"
+            android:icon="@drawable/ic_event"
+            android:title="Eventos" />
+        <item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/ic_news"
+            android:title="Boletines" />
+
+    </group>
+
+
+
+</menu>
